@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+       <button mat-icon-button (click)="onToggleSideNav()">
+           <mat-icon>menu</mat-icon>
+       </button>
+    </div>
+    <div>
+        <a routerLink="/">Стройка</a>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
+        <ul fxLayout fxLayoutGap="10px" class="nav-items">
+            <li>
+                <a routerLink="/signup">Зарегистрироваться</a>
+            </li>
+            <li>
+                <a routerLink="/login">Войти</a>
+            </li>
+            <li>
+                <a routerLink="/ingineer">Инженер</a>
+            </li>
+            <li>
+                <a routerLink="/operator">Оператор</a>
+            </li>
+            <li>
+                <a routerLink="/accountant">Бухгалтер</a>
+            </li>
+        </ul>
+    </div>
+</mat-toolbar>

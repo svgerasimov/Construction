@@ -1,0 +1,11 @@
+#operator {
+    max-width: 1280px;
+    margin: auto;
+}
+mat-card p span {
+    font-weight: 700
+}
+
+table {
+    width: 100%;
+  }

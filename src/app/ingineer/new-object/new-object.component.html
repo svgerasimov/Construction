@@ -1,0 +1,52 @@
+<section class="new-object">
+    <form fxLayout="column"  fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <mat-form-field>
+            <input matInput placeholder="Заказчик">
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input matInput placeholder="Наименование контракта/объекта">
+          </mat-form-field>
+      
+          <mat-form-field>
+              <input matInput placeholder="Цена контракта" type="number" class="example-right-align">
+              <span matPrefix>Р&nbsp;</span>
+              <span matSuffix>.00</span>
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Дата выйгрыша тендера">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Плановая дата подписания ГК">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Плановая дата начала работ по ГК">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="example-margin">
+              <input matInput type="number" placeholder="Срок отведенный на работы" [(ngModel)]="daysToComplete">
+          </mat-form-field>
+          <mat-radio-group>
+              <mat-radio-button value="1">Рабочие дни</mat-radio-button>
+              <mat-radio-button value="2">Календарные дни</mat-radio-button>
+          </mat-radio-group>
+
+          <mat-form-field class="example-margin">
+              <input matInput type="number" placeholder="Срок оплаты по ГК" [(ngModel)]="daysToPay">
+          </mat-form-field>
+          <mat-radio-group>
+              <mat-radio-button value="1">Рабочие дни</mat-radio-button>
+              <mat-radio-button value="2">Календарные дни</mat-radio-button>
+          </mat-radio-group>
+    </form>
+   
+  </section>

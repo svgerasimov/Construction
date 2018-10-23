@@ -1,0 +1,33 @@
+<section class="signup-form" >
+  <form fxLayout="column"  fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <mat-form-field>
+      <input 
+        type="email" 
+        matInput 
+        placeholder="Введите Ваш email" 
+        ngModel 
+        name="email" 
+        required
+        email
+        #emailInput="ngModel"
+      >
+      <mat-error *ngIf="emailInput.hasError('required')">Поле должно быть заполнено</mat-error>
+      <mat-error *ngIf="!emailInput.hasError('required')">Неправильный E-mail</mat-error>
+    </mat-form-field >
+    <mat-form-field hintLabel="Не менее 6 символов">
+      <input 
+        type="password" 
+        matInput 
+        placeholder="Введите Ваш пароль" 
+        ngModel 
+        name="password" 
+        required
+        minlength="6"
+        #pwInput="ngModel"
+        >
+      <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
+      <mat-error>Должно быть не менее 6 символов</mat-error>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Зарегистрироваться</button>
+  </form>
+</section>
