@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Добавление контакта</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input 
+        type="text"
+        matInput 
+        [(ngModel)]="data.name"
+        placeholder="Фамилия"
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+        type="text"
+        matInput 
+        [(ngModel)]="data.secondName"
+        placeholder="Имя"        
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+        type="text" 
+        matInput 
+        [(ngModel)]="data.patronymic"
+        placeholder="Отчество"        
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input 
+        type="text"
+        matInput 
+        [(ngModel)]="data.position"
+        placeholder="Должность"
+    >
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+        type="tel" 
+        matInput 
+        [(ngModel)]="data.phone"
+        placeholder="Телефон"       
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+        type="email" 
+        matInput 
+        [(ngModel)]="data.email"
+        placeholder="Email"       
+    >
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Назад</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Готово</button>
+</div>

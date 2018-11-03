@@ -19,18 +19,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class OperatorComponent implements OnInit {
 
-  nameOfOperator: string = 'Иванова И.А';
-  currentMonth: string = 'Октябрь';
-  previousMonth: string = 'Сентябрь';
-  newProducts: number = 10;
-  currentProducts: number = 0;
-
- 
-  displayedColumns: string[] = ['processedProductsForPrevMonth', 'name', 'weight'];
-  dataSource = ELEMENT_DATA;
-
   constructor() { }
-
   ngOnInit() {
   }
 

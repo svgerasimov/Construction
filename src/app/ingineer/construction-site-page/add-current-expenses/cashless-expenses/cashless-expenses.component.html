@@ -1,0 +1,82 @@
+<!-- Ввод безнала на оплату -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+       <mat-panel-title>
+          Счет на оплату
+       </mat-panel-title>
+       <mat-panel-description>
+          Введите БЕЗНАЛИЧНЫЙ счет в оплату
+       </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card>
+       <form (submit)="onAddCashLessExpenditure(cashLessForm)" #cashLessForm="ngForm" fxLayout="column" fxLayoutGap="10px">
+       <h5>Безнал в оплату</h5>
+       <!-- № счета -->
+       <mat-form-field>
+          <input 
+             name="accountNumber" 
+             matInput 
+             placeholder="№ Счета" 
+             type="number" 
+             ngModel
+             >
+       </mat-form-field>
+       <!-- Дата счета -->
+       <mat-form-field>
+          <input 
+             name="dateOfAccountCashLess" 
+             matInput 
+             [matDatepicker]="dateOfAccountCashLess" 
+             placeholder="Дата счета"
+             ngModel
+             >
+          <mat-datepicker-toggle matSuffix [for]="dateOfAccountCashLess"></mat-datepicker-toggle>
+          <mat-datepicker #dateOfAccountCashLess></mat-datepicker>
+       </mat-form-field>
+       <!-- Сумма -->
+       <mat-form-field>
+          <input 
+             name="sumOfAccount"
+             type="number"
+             matInput
+             placeholder="Сумма"
+             ngModel
+             >
+       </mat-form-field>
+       <!-- НДС -->
+       <mat-form-field>
+          <input 
+          type="number"
+          name="valueAddedTax"
+          matInput
+          placeholder="НДС"
+          [(ngModel)]="valueAddedTaxCashLess"
+          ngModel
+          value="valueAddedTaxCashLess"
+          readonly="readonly"
+          >
+       </mat-form-field>
+       <!-- Назначение платежа -->
+       <mat-form-field>
+          <input 
+             name="paymentAppointment"
+             type="text"
+             matInput
+             placeholder="Назначение платежа"
+             ngModel
+             >
+       </mat-form-field>
+       <!-- Статья расходов -->
+       <mat-form-field>
+          <input 
+             name="itemOfExpenditure"
+             type="text"
+             matInput
+             placeholder="Статья расходов"
+             ngModel
+             >
+       </mat-form-field>
+       <button mat-raised-button color="primary">Сохранить</button>
+       </form>
+    </mat-card>
+ </mat-expansion-panel>

@@ -1,0 +1,81 @@
+<mat-expansion-panel (opened)="panelOpenState = true"
+(closed)="panelOpenState = false">
+<mat-expansion-panel-header>
+   <mat-panel-title>
+      Наличный чек
+   </mat-panel-title>
+   <mat-panel-description>
+      Введите потраченную сумму наличных
+   </mat-panel-description>
+</mat-expansion-panel-header>
+<mat-card>
+   <form (submit)="onAddCashExpenditure(cashForm)" #cashForm="ngForm" fxLayout="column" fxLayoutGap="10px">
+   <h5>Нал потраченный</h5>
+   <mat-form-field>
+      <input 
+         name="accountNumber" 
+         matInput 
+         placeholder="№ Счета" 
+         type="number" 
+         ngModel
+         >
+   </mat-form-field>
+   <!-- Дата счета -->
+   <mat-form-field>
+      <input 
+         name="dateOfAccountCash" 
+         matInput 
+         [matDatepicker]="dateOfAccountCash" 
+         placeholder="Дата счета"
+         ngModel
+         >
+      <mat-datepicker-toggle matSuffix [for]="dateOfAccountCash"></mat-datepicker-toggle>
+      <mat-datepicker #dateOfAccountCash></mat-datepicker>
+   </mat-form-field>
+   <!-- Сумма -->
+   <mat-form-field>
+      <input 
+         name="sumOfAccount"
+         type="number"
+         matInput
+         placeholder="Сумма"
+         ngModel
+         >
+   </mat-form-field>
+   <!-- НДС -->
+   <mat-form-field>
+      <input 
+      type="number"
+      name="valueAddedTax"
+      matInput
+      placeholder="НДС"
+      [(ngModel)]="valueAddedTaxCash"
+      ngModel
+      value="valueAddedTaxCash"
+      readonly="readonly"
+      >
+   </mat-form-field>
+   <!-- Назначение платежа -->
+   <mat-form-field>
+      <input 
+         name="paymentAppointment"
+         type="text"
+         matInput
+         placeholder="Назначение платежа"
+         ngModel
+         >
+   </mat-form-field>
+   <!-- Статья расходов -->
+   <mat-form-field>
+      <input 
+         name="itemOfExpenditure"
+         type="text"
+         matInput
+         placeholder="Статья расходов"
+         ngModel
+         >
+   </mat-form-field>
+   <button mat-raised-button color="primary">Сохранить</button>
+   </form>
+</mat-card>
+</mat-expansion-panel>

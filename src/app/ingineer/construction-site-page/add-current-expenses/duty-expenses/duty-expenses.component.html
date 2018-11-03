@@ -1,0 +1,59 @@
+<mat-expansion-panel (opened)="panelOpenState = true"
+(closed)="panelOpenState = false">
+<mat-expansion-panel-header>
+   <mat-panel-title>
+      Служебные расходы
+   </mat-panel-title>
+   <mat-panel-description>
+      Ввод служебных расходов
+   </mat-panel-description>
+</mat-expansion-panel-header>
+<mat-card>
+   <form (submit)="onAddDutyExpenditure(dutyExpenses)" #dutyExpenses="ngForm" fxLayout="column" fxLayoutGap="10px">
+   <h5>Служебные расходы</h5>
+   <!-- Дата служебки -->
+   <mat-form-field>
+      <input 
+         name="dateOfAccountDutyExpenses" 
+         matInput 
+         [matDatepicker]="dateOfAccountDutyExpenses" 
+         placeholder="Дата служебки"
+         ngModel
+         >
+      <mat-datepicker-toggle matSuffix [for]="dateOfAccountDutyExpenses"></mat-datepicker-toggle>
+      <mat-datepicker #dateOfAccountDutyExpenses></mat-datepicker>
+   </mat-form-field>
+   <!-- Сумма -->
+   <mat-form-field>
+      <input 
+         name="sumOfAccount"
+         type="number"
+         matInput
+         placeholder="Сумма"
+         ngModel
+         >
+   </mat-form-field>
+   <!-- Назначение платежа -->
+   <mat-form-field>
+      <input 
+         name="paymentAppointment"
+         type="text"
+         matInput
+         placeholder="Назначение платежа"
+         ngModel
+         >
+   </mat-form-field>
+   <!-- Статья расходов -->
+   <mat-form-field>
+      <input 
+         name="itemOfExpenditure"
+         type="text"
+         matInput
+         placeholder="Статья расходов"
+         ngModel
+         >
+   </mat-form-field>
+   <button mat-raised-button color="primary">Сохранить</button>
+   </form>
+</mat-card>
+</mat-expansion-panel>

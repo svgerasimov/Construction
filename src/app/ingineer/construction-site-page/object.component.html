@@ -1,0 +1,38 @@
+<div id="selectedConstructionSite" *ngIf="!isEmpty(CURRENT_CONSTRUCTION_SITE)">
+    <section class="general-info">
+      <mat-card><span>Объект:</span>  {{ CURRENT_CONSTRUCTION_SITE.nameOfConstructionSite }}</mat-card>
+      <mat-card><span>Заказчик:</span> {{ CURRENT_CONSTRUCTION_SITE.customer }} </mat-card>
+       <mat-card><span>Телефон:</span> {{ CURRENT_CONSTRUCTION_SITE.contactPersons[0].phone }}  </mat-card>
+      <mat-card><span>E-mail:</span>  {{ CURRENT_CONSTRUCTION_SITE.contactPersons[0].email }}  </mat-card> 
+    </section>
+
+    <!-- БЛОК С КОНТАКТНЫМИ ДАННЫМИ ЗАКАЗЧИКА -->
+    <section class="contact-persons-block">
+      <app-contact-persons [contactPersons] = "contactPersons"></app-contact-persons>
+    </section>
+
+    <!-- БЛОК С ДЕДЛАЙНАМИ ПО ОБЪЕКТУ -->
+    <section class="deadlines">
+      <app-deadlines></app-deadlines>
+    </section>
+
+    <!-- БЛОК С ПРЯМЫМИ ИСПОЛНИТЕЛЯМИ -->
+    <section class="contractors">
+      <app-contractors></app-contractors>
+    </section>
+
+    <!-- БЛОК С ЗАТРАТАМИ -->
+    <section class="expenses">
+      <app-expenses [constructionSite] = "CURRENT_CONSTRUCTION_SITE"></app-expenses>
+    </section>
+
+    <!-- БЛОК С ВВОДОМ ЗАТРАТ -->
+    <section class="add-current-expenses">
+      <app-add-current-expenses></app-add-current-expenses>
+    </section>
+
+    <!-- БЛОК С ТЕКУЩИМИ ЗАТРАТАМИ -->
+    <section class="current-expenses">
+        <app-current-expenses></app-current-expenses>
+    </section>
+</div>

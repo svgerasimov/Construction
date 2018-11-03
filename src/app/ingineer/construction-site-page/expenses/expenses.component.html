@@ -1,0 +1,77 @@
+<div *ngIf="!!constructionSite.planningFigure">
+    <h3>Затраты по проекту</h3>
+    <mat-card>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <div fxFlex="50" class="text-left">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <span class="font-weight-bold mr-3">Цена контракта: </span> 
+                        <span style="color: red"> {{ constructionSite.valueOfWork }}</span>
+                    </mat-list-item> 
+                </mat-list>
+              </div>
+              <div fxFlex="50" class="text-left">
+                <mat-list role="list">
+                    <mat-list-item role="listitem">
+                        <span class="font-weight-bold mr-3">Обчеспечение заявки: </span> 
+                          {{ constructionSite.planningFigure.proposalSecurity }} 
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <span class="font-weight-bold mr-3">Обчеспечение контракта:  </span> 
+                         {{ constructionSite.planningFigure.contractSecurity }}
+                    </mat-list-item> 
+                </mat-list>
+              </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <div fxLayout="row" fxLayoutAlign="space-between"> 
+          <div fxFlex="50" class="text-left">
+              <mat-list role="list">
+                  <mat-list-item role="listitem">
+                      <span class="font-weight-bold mr-3">Плановые затраты ВСЕГО:  </span> 
+                      {{ constructionSite.planningFigure.sumOfCosts }} 
+                  </mat-list-item>
+                  <mat-list-item role="listitem">
+                      <span class="font-weight-bold mr-3">Плановые затраты на материалы:  </span> 
+                      {{ constructionSite.planningFigure.materialCosts }} 
+                  </mat-list-item>
+                  <mat-list-item role="listitem">
+                      <span class="font-weight-bold mr-3">Плановые затраты на ФОТ:  </span> 
+                      {{ constructionSite.planningFigure.wageFundDeductions }}
+                  </mat-list-item>
+                  <mat-list-item role="listitem">
+                      <span class="font-weight-bold mr-3">Плановые затраты на ГСМ:  </span> 
+                      {{ constructionSite.planningFigure.petrolOilLubricantsCosts }}
+                  </mat-list-item>
+                  <mat-list-item role="listitem">
+                      <span class="font-weight-bold mr-3">Плановые прочие затраты:  </span> 
+                      {{ constructionSite.planningFigure.otherCosts }}
+                  </mat-list-item>
+              </mat-list>
+          </div>
+          <div fxFlex="50" class="text-right">
+              <mat-list role="list">
+                  <mat-list role="list">
+                       
+                      <mat-list-item role="listitem">
+                          <span class="font-weight-bold mr-3">Текущие затраты ВСЕГО:  </span>  
+                      </mat-list-item>
+                      <mat-list-item role="listitem">
+                          <span class="font-weight-bold mr-3">Текущие затраты на материалы:  </span> 
+                      </mat-list-item>
+                      <mat-list-item role="listitem">
+                          <span class="font-weight-bold mr-3">Текущие затраты на ФОТ:  </span> 
+                      </mat-list-item>
+                      <mat-list-item role="listitem">
+                          <span class="font-weight-bold mr-3">Текущие затраты на ГСМ:  </span> 
+                      </mat-list-item>
+                      <mat-list-item role="listitem">
+                          <span class="font-weight-bold mr-3">Текущие прочие затраты:  </span> 
+                      </mat-list-item>
+                  </mat-list>
+              </mat-list>
+          </div>
+        </div>
+    </mat-card>
+</div>

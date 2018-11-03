@@ -1,0 +1,15 @@
+<h3>Ввод текущих расходов</h3>
+
+<mat-accordion>
+
+    <!-- БЕЗНАЛ -->
+    <app-cashless-expenses (cashLessExpenditureAdded)="onCashLessExpenditureAdded($event)"></app-cashless-expenses>
+
+    <!-- НАЛИЧНЫЕ -->
+    <app-cash-expenses (cashExpenditureAdded)="onCashExpenditureAdded($event)"></app-cash-expenses>
+
+    <!-- СЛУЖЕБНЫЕ РАСХОДЫ -->
+    <app-duty-expenses (dutyExpenditureAdded)="onDutyExpenditureAdded($event)"></app-duty-expenses>
+
+
+</mat-accordion>

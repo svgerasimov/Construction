@@ -1,0 +1,28 @@
+.mat-radio-button ~ .mat-radio-button {
+    padding-right: 16px;
+  }
+
+ /*  .new-object {
+    display: flex;
+    flex-direction: column
+  } */
+
+  mat-card {
+    width: 640px;
+    margin:  2rem auto
+  }
+
+  mat-form-field {
+    width: 90%;
+    margin: auto;
+    
+  }
+
+  .personal-info {
+    width: 100%;
+  }
+
+  .personal-info-wrapper {
+    width: 80%
+  }
+ 

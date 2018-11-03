@@ -1,0 +1,81 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Поиск">
+  </mat-form-field>
+  
+  <section>
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <!-- Статья -->
+      <ng-container matColumnDef="itemOfExpenditure">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Статья </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.itemOfExpenditure}} </td>
+      </ng-container>
+  
+      <!-- № счета -->
+      <ng-container matColumnDef="accountNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> № счета </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.accountNumber}} </td>
+      </ng-container>
+  
+      <!-- Дата счета -->
+      <ng-container matColumnDef="dateOfAccount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата счета </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.dateOfAccount}} </td>
+      </ng-container>
+
+      <!-- Продавец -->
+      <ng-container matColumnDef="seller">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Продавец </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.seller}} </td>
+      </ng-container>
+
+      <!-- Сумма -->
+      <ng-container matColumnDef="sumOfAccount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Сумма </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.sumOfAccount}} </td>
+      </ng-container>
+
+      <!-- НДС -->
+      <ng-container matColumnDef="valueAddedTax">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> НДС </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.valueAddedTax}} </td>
+      </ng-container>
+
+      <!-- Назначение платежа -->
+      <ng-container matColumnDef="paymentAppointment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Назначение платежа </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.paymentAppointment}} </td>
+      </ng-container>
+
+      
+      <!-- Товары введены? -->
+      <ng-container matColumnDef="areProductsEntered">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Товары введены </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.areProductsEntered}} </td>
+      </ng-container>
+
+      <!-- Оплачено? -->
+      <ng-container matColumnDef="areProductsPaid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Оплачено </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.areProductsPaid}} </td>
+      </ng-container>
+
+      <!-- № УПД (сч-ф) -->
+      <ng-container matColumnDef="UTDNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> № УПД (сч-ф) </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.UTDNumber}} </td>
+      </ng-container>
+
+      <!-- Дата УПД (сч-ф) -->
+      <ng-container matColumnDef="UTDDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата УПД (сч-ф) </th>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure.UTDDate}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </section>

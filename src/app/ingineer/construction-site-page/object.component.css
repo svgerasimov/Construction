@@ -1,0 +1,16 @@
+mat-card span {
+    font-weight: 700
+}
+
+#selectedConstructionSite {
+    max-width: 1280px;
+    margin: auto;
+   }
+   table {
+       width: 100%;
+     }
+   
+     section {
+         margin-top: 30px
+     }
+     

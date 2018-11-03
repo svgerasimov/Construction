@@ -1,0 +1,67 @@
+        
+       
+      
+        <div>
+            <table mat-table [dataSource]="dataSource">
+          
+              <!-- Порядковый номер объекта -->
+               <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> № </th>
+                <td mat-cell *matCellDef="let constructionSite"> {{constructionSite.id}} </td>
+              </ng-container>
+          
+              <!-- Наименование объекта -->
+              <ng-container matColumnDef="nameOfConstructionSite">
+                <th mat-header-cell *matHeaderCellDef> Наименование объекта </th>
+                <td mat-cell *matCellDef="let constructionSite"> {{constructionSite.nameOfConstructionSite}} </td>
+              </ng-container>
+          
+              <!-- Заказчик -->
+              <ng-container matColumnDef="customer">
+                <th mat-header-cell *matHeaderCellDef> Заказчик </th>
+                <td mat-cell *matCellDef="let constructionSite"> {{constructionSite.customer}} </td>
+              </ng-container>
+          
+              <!-- Срок сдачи объекта -->
+               <ng-container matColumnDef="deadline">
+                <th mat-header-cell *matHeaderCellDef> Срок сдачи </th>
+                <td mat-cell *matCellDef="let constructionSite"> {{constructionSite.deadline}} </td>
+              </ng-container> 
+  
+              <!-- Стоимость объекта -->
+                <ng-container matColumnDef="valueOfContract">
+                  <th mat-header-cell *matHeaderCellDef> Стоимость объекта </th>
+                  <td mat-cell *matCellDef="let constructionSite"> {{constructionSite.valueOfContract}} </td>
+                </ng-container>
+  
+              <!-- Плановые затраты по стройке объекта -->
+               <ng-container matColumnDef="planningExpenditures">
+                <th mat-header-cell *matHeaderCellDef> Плановые затраты </th>
+                <td mat-cell *matCellDef="let constructionSite"> 
+                  {{constructionSite.planningExpenditures.sumOfCosts}} 
+                  <button 
+                      (click)="onShowConstructionSitePage(this.constructionSite)"
+                      mat-stroked-button 
+                      color="primary">
+                      Подробнее</button>
+                </td>
+              </ng-container>
+  
+      
+              <!-- Текущие затраты -->
+              <!--  <ng-container matColumnDef="currentExpenditure">
+                <th mat-header-cell *matHeaderCellDef>Текущие затраты</th>
+                <td mat-cell *matCellDef="let constructionSite"> 
+                  {{constructionSite.currentExpenditure}} 
+                  <button mat-stroked-button color="primary">Подробнее</button>
+                </td>
+              </ng-container>  -->
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+
+     

@@ -6,11 +6,23 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
-import { MatPaginatorModule, MatTableModule } from '@angular/material';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { 
+        MatPaginatorModule, 
+        MatTableModule, 
+        MatNativeDateModule, 
+        MatDialogModule 
+        
+    } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatCardModule} from '@angular/material/card';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 
 @NgModule({
     imports: [
@@ -26,7 +38,12 @@ import {MatRadioModule} from '@angular/material/radio';
         MatTabsModule,
         MatCardModule,
         MatDatepickerModule,
-        MatRadioModule
+        MatNativeDateModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatDividerModule,
+        MatCheckboxModule,
+        MatExpansionModule
     
     ],
     exports: [
@@ -42,7 +59,13 @@ import {MatRadioModule} from '@angular/material/radio';
         MatTabsModule,
         MatCardModule,
         MatDatepickerModule,
-        MatRadioModule
+        MatRadioModule,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatDividerModule,
+        MatCheckboxModule,
+        MatExpansionModule
     ]
 })
 export class MaterialModule {}

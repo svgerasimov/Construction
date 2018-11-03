@@ -1,0 +1,231 @@
+<section id="new-object" fxLayout="row" fxLayoutAlign="space-around">
+        <mat-card>
+                <form (submit)="onAddFinances(financesForm)" #financesForm="ngForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+                        <h3>Бюджетный блок</h3>
+                        <mat-form-field>
+                            <input 
+                                name="materialCosts" 
+                                matInput 
+                                placeholder="Плановый бюджет на метериалы" 
+                                type="number" 
+                                class="example-right-align"
+                                ngModel
+                                required
+                            >
+                            <span matPrefix>Р&nbsp;</span>
+                            <span matSuffix>.00</span>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input 
+                                name="wageFundDeductions" 
+                                matInput 
+                                placeholder="Плановый бюджет на ФОТ" 
+                                type="number" 
+                                class="example-right-align"
+                                ngModel
+                            >
+                            <span matPrefix>Р&nbsp;</span>
+                            <span matSuffix>.00</span>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input 
+                                name="petrolOilLubricantsCosts" 
+                                matInput 
+                                placeholder="Плановый бюджет на ГСМ" 
+                                type="number" 
+                                class="example-right-align"
+                                ngModel
+                            >
+                            <span matPrefix>Р&nbsp;</span>
+                            <span matSuffix>.00</span>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input 
+                                name="otherCosts" 
+                                matInput 
+                                placeholder="Прочие плановые затраты" 
+                                type="number" 
+                                class="example-right-align"
+                                ngModel
+                            >
+                            <span matPrefix>Р&nbsp;</span>
+                            <span matSuffix>.00</span>
+                        </mat-form-field>
+                        <h3>Обеспечение контракта</h3>
+                             <mat-form-field>
+                                <input 
+                                    name="proposalSecurity" 
+                                    matInput 
+                                    placeholder="Обеспечение заявки" 
+                                    type="number" 
+                                    class="example-right-align"
+                                    ngModel
+                                >
+                                <span matPrefix>Р&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+                             <mat-form-field>
+                                <input 
+                                    name="contractSecurity" 
+                                    matInput 
+                                    placeholder="Обеспечение контракта" 
+                                    type="number" 
+                                    class="example-right-align"
+                                    ngModel
+                                >
+                                <span matPrefix>Р&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+        
+                                <mat-checkbox 
+                                    name="bankGuarantee" 
+                                    ngModel
+                                    >Банковская гарантия
+                                 
+                                </mat-checkbox>
+                 
+                    
+
+                            <button type="submit" mat-raised-button color="primary">Готово</button>
+        
+                </form>
+            </mat-card>
+            
+    <mat-card>
+            <form (submit)="onAddConstructionSiteData(newConstructionSiteInfo)" #newConstructionSiteInfo="ngForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+                    <h3>Информация по объекту</h3>
+                    <mat-form-field>
+                        <input 
+                            type="text" 
+                            name="customer" 
+                            matInput 
+                            placeholder="Заказчик"
+                            ngModel
+                            required
+                            >
+                      </mat-form-field>
+                  
+                      <mat-form-field>
+                        <input 
+                            type="text" 
+                            name="nameOfConstructionSite" 
+                            matInput 
+                            placeholder="Наименование контракта/объекта"
+                            ngModel
+                            required
+                            >
+                      </mat-form-field>
+                  
+                      <mat-form-field>
+                          <input 
+                            name="valueOfContract" 
+                            matInput 
+                            placeholder="Цена контракта" 
+                            type="number" 
+                            class="example-right-align"
+                            ngModel
+                            >
+                          <span matPrefix>Р&nbsp;</span>
+                          <span matSuffix>.00</span>
+                      </mat-form-field>
+
+                    
+                            <h4>Контактные лица заказчика</h4>   
+                            <p style="cursor: pointer"
+                                mat-icon-button 
+                                color="primary"
+                                (click)="openDialog()"
+                                >
+                                <mat-icon>add_circle</mat-icon>
+                             </p>
+                            <div class="personal-info-wrapper" *ngIf="contactPersons.length > 0">
+                                <mat-card *ngFor="let contactPerson of contactPersons" class="personal-info">
+                                    <mat-card-header>
+                                        <mat-card-title> <i>{{contactPerson.name}} </i>  <i>{{ contactPerson.secondName }}</i></mat-card-title>
+                                    </mat-card-header>
+                                
+                                    <mat-card-content>
+                                        <p><b>Должность: </b>{{ contactPerson.position }}</p>
+                                        <p><b>Телефон: </b>{{ contactPerson.phone }}</p>
+                                        <p><b>Email: </b>{{ contactPerson.email }}</p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                          
+                         
+                       <mat-form-field>
+                          <input 
+                            name="dateOfWinningOfTender" 
+                            matInput 
+                            [matDatepicker]="picker1" 
+                            placeholder="Дата выйгрыша тендера"
+                            ngModel
+                            >
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+             
+                       <mat-form-field>
+                          <input 
+                            name="planningDateOfSigningTender"
+                            matInput 
+                            [matDatepicker]="picker2" 
+                            placeholder="Плановая дата подписания ГК"
+                            ngModel
+                            >
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+            
+                      <mat-form-field>
+                          <input 
+                            name="planningDateOfStartingOfWork" 
+                            matInput 
+                            [matDatepicker]="picker3" 
+                            placeholder="Плановая дата начала работ по ГК"
+                            ngModel
+                            >
+                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker>
+                      </mat-form-field> 
+            
+                      <mat-form-field class="example-margin">
+                          <input 
+                            name="timeLimitForWork" 
+                            matInput 
+                            type="number"
+                            placeholder="Срок отведенный на работы" 
+                            ngModel
+                        >
+                      </mat-form-field>
+                      <mat-radio-group name="timeLimitForWorkDays" ngModel>
+                          <mat-radio-button value="workingDays">Рабочие дни</mat-radio-button>
+                          <mat-radio-button value="calendarDays">Календарные дни</mat-radio-button>
+                      </mat-radio-group>
+            
+                      <mat-form-field class="example-margin">
+                          <input 
+                            name="timeLimitForPaymentContract" 
+                            matInput 
+                            type="number" 
+                            placeholder="Срок оплаты по ГК" 
+                            ngModel
+                            >
+                      </mat-form-field>
+                      <mat-radio-group name="timeLimitForPaymentContractDays" ngModel>
+                          <mat-radio-button value="workingDays">Рабочие дни</mat-radio-button>
+                          <mat-radio-button value="calendarDays">Календарные дни</mat-radio-button>
+                      </mat-radio-group>
+            
+                      <button 
+                        type="submit" 
+                        mat-raised-button 
+                        color="primary"
+                        [disabled]="!isPlanningFigureFilled"
+                        
+    
+                      >Отправить</button>
+            
+                </form>
+    </mat-card>
+  </section>
