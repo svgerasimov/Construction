@@ -14,7 +14,7 @@ export class IngineerComponent  {
     name: 'Астахов В.Г',
     cash: 80458,
     nonCashUnpaid: 159548,
-    documentsDebts: true
+    documentsDebts: 'Не имеются'
   }
 
   constructor(private router: Router, 

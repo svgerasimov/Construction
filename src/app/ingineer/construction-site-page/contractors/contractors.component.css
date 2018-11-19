@@ -1,0 +1,11 @@
+mat-form-field {
+    width: 100%
+}
+.scan {
+    width: 100%
+}
+.scan img {
+    width: 80%;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    padding: 5px
+}

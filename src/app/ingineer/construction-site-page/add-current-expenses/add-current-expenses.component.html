@@ -3,13 +3,13 @@
 <mat-accordion>
 
     <!-- БЕЗНАЛ -->
-    <app-cashless-expenses (cashLessExpenditureAdded)="onCashLessExpenditureAdded($event)"></app-cashless-expenses>
+    <app-cashless-expenses [_id]="_id" (cashLessExpenditureAdded)="onCashLessExpenditureAdded($event)"></app-cashless-expenses>
 
     <!-- НАЛИЧНЫЕ -->
-    <app-cash-expenses (cashExpenditureAdded)="onCashExpenditureAdded($event)"></app-cash-expenses>
+    <app-cash-expenses [_id]="_id" (cashExpenditureAdded)="onCashExpenditureAdded($event)"></app-cash-expenses>
 
     <!-- СЛУЖЕБНЫЕ РАСХОДЫ -->
-    <app-duty-expenses (dutyExpenditureAdded)="onDutyExpenditureAdded($event)"></app-duty-expenses>
+    <app-duty-expenses [_id]="_id" (dutyExpenditureAdded)="onDutyExpenditureAdded($event)"></app-duty-expenses>
 
 
 </mat-accordion>

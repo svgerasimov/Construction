@@ -1,12 +1,17 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router, ParamMap} from '@angular/router';
+import { ActivatedRoute } from '@angular/router'
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource } from "@angular/material";
+import { AddSellerComponent } from '../add-seller/add-seller.component'
 
 
 /*** Interfaces ***/
 import { Expenditure } from '../../../../models/expenditure.model';
 
 /*** Services ***/
-import { CurrentExpendituresService } from '../../../../services/current-expenditures.service'
+import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
 
 @Component({
@@ -15,11 +20,13 @@ import { CurrentExpendituresService } from '../../../../services/current-expendi
   styleUrls: ['./cash-expenses.component.css']
 })
 export class CashExpensesComponent implements OnInit {
+  @Input() _id: string;
 
  @Output() cashExpenditureAdded = new EventEmitter<Expenditure>();
   
   constructor(
-    public currentExpendituresService: CurrentExpendituresService,
+    private dialog: MatDialog,
+    public constructionSiteService: ConstructionSiteService,
   ) { }
 
   ngOnInit() {
@@ -27,22 +34,39 @@ export class CashExpensesComponent implements OnInit {
 
   cashExpenditure: Expenditure;
   valueAddedTaxCash: number = 0;
+  seller: any;
 
   
   onAddCashExpenditure(form: NgForm){
     this.cashExpenditure = this.processForm(form)
+    this.cashExpenditure['seller'] = this.seller
     this.valueAddedTaxCash = this.cashExpenditure.valueAddedTax
+    console.log(this.cashExpenditure)
     form.reset()
-    this.currentExpendituresService.addCurrentCashExpenditures(this.cashExpenditure)
-    this.cashExpenditureAdded.emit(this.cashExpenditure)
+    this.constructionSiteService.addCurrentCashExpenditures(this._id, this.cashExpenditure)
+   // this.cashExpenditureAdded.emit(this.cashExpenditure)
   } 
 
 
    processForm(form){
     const outputObject = Object.assign({}, form.value)
     outputObject.valueAddedTax = Math.round((outputObject.sumOfAccount * 18) / 118)
+    outputObject.typeOfExpense = 'cash'
     return outputObject
   } 
 
 
+
+  
+  addSellerDialogRef: MatDialogRef<AddSellerComponent>
+
+  openAddNewSellerDialog(){
+
+     const addSellerDialogRefRef = this.dialog.open(AddSellerComponent, {
+       width: '400px'
+     })
+
+     addSellerDialogRefRef.afterClosed().subscribe(newSeller => this.seller = newSeller)
+
+  }
 }

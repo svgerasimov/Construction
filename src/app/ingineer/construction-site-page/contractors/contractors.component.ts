@@ -1,12 +1,13 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Component, OnInit, Inject, Input, OnDestroy, ViewChild} from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource } from "@angular/material";
 import { Subscription } from 'rxjs';
+import { AddNewContractorDialogComponent } from './add-new-contractor-dialog/add-new-contractor-dialog.component'
 
 /*** Interfaces ***/
 import { Contractor } from "../../../models/contractor.model"
 
 /*** Services ***/
-import { ContractorService } from '../../../services/contractors.service'
+import { ConstructionSiteService } from '../../../services/construction-sites.service';
 
 @Component({
   selector: 'app-contractors',
@@ -14,96 +15,89 @@ import { ContractorService } from '../../../services/contractors.service'
   styleUrls: ['./contractors.component.css']
 })
 export class ContractorsComponent implements OnInit, OnDestroy {
-    counterId: number = 1;
+  scans: Object[] = [];
 
-    isForemanAssigned: boolean = false;
+  name: string;
+  secondName: string;
+  patronymic: string;
+  phone: number;
+  typeOfWork: string;
 
+  @Input() _id:string
+  constructionSiteIndex: number
 
-    isForeman?: boolean;
-    name: string;
-    secondName: string;
-    patronymic: string;
-    phone: number;
-    typeOfWork: string;
+  private constructionSites
+  private constructionSites_sub: Subscription
 
-    displayedColumns: string[] = [
-      'name', 
-      'secondName', 
-      'patronymic', 
-      'typeOfWork', 
-      'phone', 
-      'scanOfPassport', 
-      'scanOfPatent',
-      'scanOfContractB',
-      'scanOfContractA',
-      'scanOfContractC' 
-    ];
+  contractors = new MatTableDataSource<Contractor>(this.constructionSites);
 
-  contractors: Contractor[] = []
-  private contractors_sub: Subscription;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
-    public contractorService: ContractorService,
+    public constructionSiteService: ConstructionSiteService,
   ) {}
 
   ngOnInit() {
-    this.contractors = this.contractorService.getContractors();
+      this.contractors.paginator = this.paginator;
 
-    this.contractors_sub = this.contractorService.getContractorsUpdateListener().subscribe((contractors: Contractor[]) => {
-      this.contractors = contractors;
-   });
-  }
+      this.constructionSites = this.constructionSiteService.getConstructionSites()
+      this.constructionSites_sub = this.constructionSiteService.getConstructionSiteUpdateListener().subscribe((constructionSites) => {
+      this.constructionSites = constructionSites
+
+      this.contractors = new MatTableDataSource<Contractor>(this.constructionSites.find(s => s._id === this._id).contractors);
+
+    
+      })
+    }
 
   ngOnDestroy() {
-    this.contractors_sub.unsubscribe()
+    this.constructionSites_sub.unsubscribe()
+   }
+
+   
+
+   displayedColumns: string[] = [
+    'name', 
+    'secondName', 
+    'patronymic', 
+    'typeOfWork', 
+    'phone', 
+    'scanOfPassport', 
+    'scanOfPatent',
+    'scanOfContractA',
+    'scanOfContractB',
+    'scanOfContractC',
+
+  ];
+
+
+
+  addNewContractorDialogRef: MatDialogRef<AddNewContractorDialogComponent>
+
+  openAddNewContractorDialog(contractor?){
+
+     const addNewContractorDialogRef = this.dialog.open(AddNewContractorDialogComponent, {
+       width: '600px'
+     })
+
+     addNewContractorDialogRef.afterClosed().subscribe((newContractor) => {
+         
+          for (let prop in newContractor) {
+            if (newContractor[prop] instanceof File) {
+              this.scans.push(newContractor[prop])
+            }
+          }
+    
+          const contractor = (({ name, secondName, patronymic, phone, typeOfWork }) => ({ name, secondName, patronymic, phone, typeOfWork  }))(newContractor);
+          contractor['docsFiles'] = this.scans
+        
+          this.constructionSiteService.addContractor(this._id, contractor)
+
+          
+      
+       }
+     )
   }
-
-  openDialog(){
-    const dialogRef = this.dialog.open(AddNewContractor, {
-      width: '450px',
-      data: {
-        name: this.name, 
-        secondName: this.secondName,
-        patronymic: this.patronymic,
-        phone: this.phone,
-        typeOfWork: this.typeOfWork
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result.name && result.secondName){
-        result.id = this.counterId;
-        result.isForeman = false;
-        this.contractorService.addContractor(result)
-        this.counterId += 1 
-        console.log(this.contractors)
-      }
-
-    });   
-  }
-
-  onMakeContractorForeman(contractor){
-    this.contractorService.makeContractorForeman(contractor)
-    this.isForemanAssigned = true
-  }
-
 }
 
-
-@Component({
-  selector: 'add-new-contractor',
-  templateUrl: 'add-new-contractor.html',
-})
-
-export class AddNewContractor {
-
-  constructor(
-    public dialogRef: MatDialogRef<AddNewContractor>,
-    @Inject(MAT_DIALOG_DATA) public contractor: Contractor) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}

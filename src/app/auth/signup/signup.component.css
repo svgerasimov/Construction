@@ -1,3 +1,10 @@
+
 mat-form-field {
-  width: 40%
+  width: 80%
+}
+
+mat-card {
+  max-width: 640px;
+  width: 80%;
+  margin:  30px auto;
 }

@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import { Subscription } from 'rxjs';
+
 
 /* Interfaces */
 import { Expenditure } from '../../../../models/expenditure.model'
 
 /*** Services ***/
-import { CurrentExpendituresService } from '../../../../services/current-expenditures.service'
+import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
 
 @Component({
@@ -14,7 +15,11 @@ import { CurrentExpendituresService } from '../../../../services/current-expendi
   templateUrl: './on-duty.component.html',
   styleUrls: ['./on-duty.component.css']
 })
-export class OnDutyComponent implements OnInit {
+export class OnDutyComponent implements OnInit, OnDestroy {
+  @Input() _id:string
+  private constructionSites
+  private constructionSites_sub: Subscription
+
   CURRENT_DUTY_EXPENDITURES: Expenditure[] = []
   private CURRENT_DUTY_EXPENDITURES_SUB: Subscription;
 
@@ -25,25 +30,27 @@ export class OnDutyComponent implements OnInit {
     'paymentAppointment'
   ];
 
-  dataSource = new MatTableDataSource<Expenditure>(this.CURRENT_DUTY_EXPENDITURES);
+  dataSource = new MatTableDataSource<Expenditure>(this.constructionSites);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor( public currentExpendituresService: CurrentExpendituresService ) {}
+  constructor( public constructionSiteService: ConstructionSiteService ) {}
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    this.CURRENT_DUTY_EXPENDITURES = this.currentExpendituresService.getDutyExpenditures();
-
-    this.CURRENT_DUTY_EXPENDITURES_SUB = this.currentExpendituresService.getDutyExpendituresUpdateListener().subscribe((currentDutyExpenditures: Expenditure[]) => {
-    this.CURRENT_DUTY_EXPENDITURES = currentDutyExpenditures;
-
-    this.dataSource = new MatTableDataSource(this.CURRENT_DUTY_EXPENDITURES); 
-  })
+    this.constructionSites = this.constructionSiteService.getConstructionSites()
+    this.constructionSites_sub = this.constructionSiteService.getConstructionSiteUpdateListener().subscribe((constructionSites) => {
+    this.constructionSites = constructionSites
+    this.dataSource = new MatTableDataSource(this.constructionSites.find(s => s._id === this._id).dutyExpenditures);
+    })
   }
+
+  ngOnDestroy() {
+    this.constructionSites_sub.unsubscribe()
+   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();

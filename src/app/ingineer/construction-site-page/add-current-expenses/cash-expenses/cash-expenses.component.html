@@ -9,6 +9,9 @@
    </mat-panel-description>
 </mat-expansion-panel-header>
 <mat-card>
+      <div class="mb-4">
+            <button mat-flat-button color="primary" (click)="openAddNewSellerDialog()">Добавить продавца</button>
+        </div>
    <form (submit)="onAddCashExpenditure(cashForm)" #cashForm="ngForm" fxLayout="column" fxLayoutGap="10px">
    <h5>Нал потраченный</h5>
    <mat-form-field>
@@ -20,6 +23,7 @@
          ngModel
          >
    </mat-form-field>
+
    <!-- Дата счета -->
    <mat-form-field>
       <input 
@@ -32,6 +36,7 @@
       <mat-datepicker-toggle matSuffix [for]="dateOfAccountCash"></mat-datepicker-toggle>
       <mat-datepicker #dateOfAccountCash></mat-datepicker>
    </mat-form-field>
+
    <!-- Сумма -->
    <mat-form-field>
       <input 
@@ -43,7 +48,7 @@
          >
    </mat-form-field>
    <!-- НДС -->
-   <mat-form-field>
+ <!--   <mat-form-field>
       <input 
       type="number"
       name="valueAddedTax"
@@ -54,7 +59,7 @@
       value="valueAddedTaxCash"
       readonly="readonly"
       >
-   </mat-form-field>
+   </mat-form-field> -->
    <!-- Назначение платежа -->
    <mat-form-field>
       <input 

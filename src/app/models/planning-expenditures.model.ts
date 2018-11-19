@@ -5,6 +5,6 @@ export interface PlanningExpenditures {
     otherCosts?: number;
     proposalSecurity?: number; 
     contractSecurity?: number; 
-    bankGuarantee?: boolean;
+    //bankGuarantee?: boolean;
     sumOfCosts?: number;
 }

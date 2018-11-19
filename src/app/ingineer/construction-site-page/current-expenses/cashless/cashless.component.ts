@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, OnDestroy    } from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 /* Interfaces */
 import { Expenditure } from '../../../../models/expenditure.model'
 
 /*** Services ***/
-import { CurrentExpendituresService } from '../../../../services/current-expenditures.service'
+import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
 
 @Component({
@@ -16,56 +16,60 @@ import { CurrentExpendituresService } from '../../../../services/current-expendi
 })
 
 export class CashlessComponent implements OnInit, OnDestroy {
+  @Input() _id: string
+  constructionSites
+  private constructionSites_sub: Subscription
+
 
   CURRENT_CASHLESS_EXPENDITURES: Expenditure[] = []
   private CURRENT_CASHLESS_EXPENDITURES_SUB: Subscription;
 
   displayedColumns: string[] = [
-    'itemOfExpenditure', 
-    'accountNumber', 
-    'dateOfAccount', 
-    'seller', 
-    'sumOfAccount', 
-    'valueAddedTax', 
+    'itemOfExpenditure',
+    'accountNumber',
+    'dateOfAccount',
+    'seller',
+    'sumOfAccount',
+    'valueAddedTax',
     'paymentAppointment',
-     'areProductsEntered', 
-    'areProductsPaid', 
-    'UTDNumber', 
-    'UTDDate' 
+    // 'areProductsEntered',
+    // 'areProductsPaid',
+    // 'UTDNumber',
+    // 'UTDDate'
   ];
 
-  dataSource = new MatTableDataSource<Expenditure>(this.CURRENT_CASHLESS_EXPENDITURES);
+  dataSource = new MatTableDataSource<Expenditure>(this.constructionSites);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(  
-    public currentExpendituresService: CurrentExpendituresService) {
-     
+  constructor(
+    public constructionSiteService: ConstructionSiteService) {
+
   }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    this.CURRENT_CASHLESS_EXPENDITURES = this.currentExpendituresService.getCashLessExpenditures();
+    this.constructionSites = this.constructionSiteService.getConstructionSites()
+    this.constructionSites_sub = this.constructionSiteService.getConstructionSiteUpdateListener().subscribe((constructionSites) => {
+      this.constructionSites = constructionSites
+      this.dataSource = new MatTableDataSource(this.constructionSites.find(s => s._id === this._id).cashlessExpenditures);
 
-    this.CURRENT_CASHLESS_EXPENDITURES_SUB = this.currentExpendituresService.getCashLessExpendituresUpdateListener().subscribe((currentCashLessExpenditures: Expenditure[]) => {
-    this.CURRENT_CASHLESS_EXPENDITURES = currentCashLessExpenditures;
-
-    this.dataSource = new MatTableDataSource(this.CURRENT_CASHLESS_EXPENDITURES); 
-  })
-}
-
-applyFilter(filterValue: string) {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-
-  if (this.dataSource.paginator) {
-    this.dataSource.paginator.firstPage();
+    })
   }
-}
 
   ngOnDestroy() {
-    this.CURRENT_CASHLESS_EXPENDITURES_SUB.unsubscribe()
+    this.constructionSites_sub.unsubscribe()
   }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
 }

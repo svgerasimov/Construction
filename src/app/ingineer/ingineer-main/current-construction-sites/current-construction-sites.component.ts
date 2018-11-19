@@ -18,9 +18,10 @@ import { ConstructionSiteService } from '../../../services/construction-sites.se
 
 
 export class CurrentConstructionSitesComponent implements OnInit, OnDestroy {
-  CURRENT_CONSTRUCTION_SITES_DATA: ConstructionSite[] = [] 
+  CURRENT_CONSTRUCTION_SITES_DATA
   private CURRENT_CONSTRUCTION_SITES_DATA_SUB: Subscription;
-  
+
+
   constructor(
     public constructionSiteService: ConstructionSiteService,
     private router: Router,
@@ -31,13 +32,19 @@ export class CurrentConstructionSitesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     
+   setTimeout(()=> {
+    this.CURRENT_CONSTRUCTION_SITES_DATA = this.constructionSiteService.getConstructionSites();
    
-   this.constructionSiteService.getConstructionSites();
+    this.CURRENT_CONSTRUCTION_SITES_DATA_SUB = this.constructionSiteService.getConstructionSiteUpdateListener().subscribe((constructionSites) => {
+        this.CURRENT_CONSTRUCTION_SITES_DATA = constructionSites;
+        this.dataSource = new MatTableDataSource<ConstructionSite>(this.CURRENT_CONSTRUCTION_SITES_DATA);
 
-    this.CURRENT_CONSTRUCTION_SITES_DATA_SUB = this.constructionSiteService.getConstructionSiteUpdateListener().subscribe((constructionSites: ConstructionSite[]) => {
-      this.CURRENT_CONSTRUCTION_SITES_DATA = constructionSites;
-      this.dataSource = new MatTableDataSource(this.CURRENT_CONSTRUCTION_SITES_DATA);
    });
+   
+  }, 300)
+
+ 
+   
   }
 
    ngOnDestroy() {
@@ -45,15 +52,15 @@ export class CurrentConstructionSitesComponent implements OnInit, OnDestroy {
   }
   
   onShowConstructionSitePage(constructionSite){
-    this.constructionSiteService.selectConstructionSite(constructionSite)
+
     this.router.navigate(['object'], {relativeTo: this.route})
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'nameOfConstructionSite', 'customer', 'deadline', 'valueOfContract', 'planningExpenditures'];
+  displayedColumns: string[] = ['nameOfConstructionSite', 'customer', 'deadline', 'valueOfContract', 'planningExpenditures'];
  
-  dataSource = new MatTableDataSource(this.CURRENT_CONSTRUCTION_SITES_DATA);
+  dataSource = new MatTableDataSource<ConstructionSite>(this.CURRENT_CONSTRUCTION_SITES_DATA);
   
 }
 

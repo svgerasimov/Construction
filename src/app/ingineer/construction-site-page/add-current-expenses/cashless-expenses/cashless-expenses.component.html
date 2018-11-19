@@ -9,6 +9,9 @@
        </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-card>
+         <div class="mb-4">
+               <button mat-flat-button color="primary" (click)="openAddNewSellerDialog()">Добавить продавца</button>
+           </div>
        <form (submit)="onAddCashLessExpenditure(cashLessForm)" #cashLessForm="ngForm" fxLayout="column" fxLayoutGap="10px">
        <h5>Безнал в оплату</h5>
        <!-- № счета -->
@@ -44,7 +47,7 @@
              >
        </mat-form-field>
        <!-- НДС -->
-       <mat-form-field>
+       <!-- <mat-form-field>
           <input 
           type="number"
           name="valueAddedTax"
@@ -55,7 +58,7 @@
           value="valueAddedTaxCashLess"
           readonly="readonly"
           >
-       </mat-form-field>
+       </mat-form-field> -->
        <!-- Назначение платежа -->
        <mat-form-field>
           <input 

@@ -1,4 +1,4 @@
-<div *ngIf="!!constructionSite.planningFigure">
+<div>
     <h3>Затраты по проекту</h3>
     <mat-card>
         <div fxLayout="row" fxLayoutAlign="space-between">
@@ -6,7 +6,7 @@
                 <mat-list role="list">
                     <mat-list-item role="listitem">
                         <span class="font-weight-bold mr-3">Цена контракта: </span> 
-                        <span style="color: red"> {{ constructionSite.valueOfWork }}</span>
+                        <span style="color: red"> {{ constructionSite?.valueOfContract | currency:'RUB':'symbol-narrow'  }}</span>
                     </mat-list-item> 
                 </mat-list>
               </div>
@@ -14,11 +14,11 @@
                 <mat-list role="list">
                     <mat-list-item role="listitem">
                         <span class="font-weight-bold mr-3">Обчеспечение заявки: </span> 
-                          {{ constructionSite.planningFigure.proposalSecurity }} 
+                          {{ constructionSite?.planningExpenditures?.proposalSecurity | currency:'RUB':'symbol-narrow'  }} 
                     </mat-list-item>
                     <mat-list-item role="listitem">
                         <span class="font-weight-bold mr-3">Обчеспечение контракта:  </span> 
-                         {{ constructionSite.planningFigure.contractSecurity }}
+                         {{ constructionSite?.planningExpenditures?.contractSecurity | currency:'RUB':'symbol-narrow'  }}
                     </mat-list-item> 
                 </mat-list>
               </div>
@@ -30,27 +30,35 @@
               <mat-list role="list">
                   <mat-list-item role="listitem">
                       <span class="font-weight-bold mr-3">Плановые затраты ВСЕГО:  </span> 
-                      {{ constructionSite.planningFigure.sumOfCosts }} 
+                      {{ constructionSite?.planningExpenditures?.sumOfCosts | currency:'RUB':'symbol-narrow' }} 
                   </mat-list-item>
                   <mat-list-item role="listitem">
                       <span class="font-weight-bold mr-3">Плановые затраты на материалы:  </span> 
-                      {{ constructionSite.planningFigure.materialCosts }} 
+                      {{ constructionSite?.planningExpenditures?.materialCosts | currency:'RUB':'symbol-narrow'  }} 
                   </mat-list-item>
                   <mat-list-item role="listitem">
-                      <span class="font-weight-bold mr-3">Плановые затраты на ФОТ:  </span> 
-                      {{ constructionSite.planningFigure.wageFundDeductions }}
-                  </mat-list-item>
-                  <mat-list-item role="listitem">
-                      <span class="font-weight-bold mr-3">Плановые затраты на ГСМ:  </span> 
-                      {{ constructionSite.planningFigure.petrolOilLubricantsCosts }}
-                  </mat-list-item>
-                  <mat-list-item role="listitem">
-                      <span class="font-weight-bold mr-3">Плановые прочие затраты:  </span> 
-                      {{ constructionSite.planningFigure.otherCosts }}
-                  </mat-list-item>
+                        <span class="font-weight-bold mr-3">Плановые затраты на ФОТ:  </span> 
+                        {{ constructionSite?.planningExpenditures?.wageFundDeductions | currency:'RUB':'symbol-narrow'  }}
+                    </mat-list-item>
+                
               </mat-list>
           </div>
-          <div fxFlex="50" class="text-right">
+         <div fxFlex="50" class="text-right">
+              <mat-list role="list">
+                  <mat-list role="list">
+                      
+                            <mat-list-item role="listitem">
+                                <span class="font-weight-bold mr-3">Плановые затраты на ГСМ:  </span> 
+                                {{ constructionSite?.planningExpenditures?.petrolOilLubricantsCosts | currency:'RUB':'symbol-narrow'  }}
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <span class="font-weight-bold mr-3">Плановые прочие затраты:  </span> 
+                                {{ constructionSite?.planningExpenditures?.otherCosts | currency:'RUB':'symbol-narrow'  }}
+                            </mat-list-item>
+                  </mat-list>
+              </mat-list>
+          </div>
+      <!--     <div fxFlex="50" class="text-right">
               <mat-list role="list">
                   <mat-list role="list">
                        
@@ -71,7 +79,7 @@
                       </mat-list-item>
                   </mat-list>
               </mat-list>
-          </div>
+          </div> -->
         </div>
     </mat-card>
 </div>

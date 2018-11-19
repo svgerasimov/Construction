@@ -3,37 +3,37 @@
           <!-- Должность -->
           <ng-container matColumnDef="position">
             <mat-header-cell *matHeaderCellDef> Должность </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.position}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.position}} </mat-cell>
           </ng-container>
         
           <!-- Фамилия -->
           <ng-container matColumnDef="secondName">
             <mat-header-cell *matHeaderCellDef> Фамилия </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.secondName}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.secondName}} </mat-cell>
           </ng-container>
         
           <!-- Имя -->
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Имя </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.name}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.name}} </mat-cell>
           </ng-container>
 
           <!-- Отчество -->
           <ng-container matColumnDef="patronymic">
             <mat-header-cell *matHeaderCellDef> Отчество </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.patronymic}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.patronymic}} </mat-cell>
           </ng-container>
 
           <!-- Номер телефона -->
           <ng-container matColumnDef="phone">
             <mat-header-cell *matHeaderCellDef> Номер телефона </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.phone}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.phone}} </mat-cell>
           </ng-container>
 
           <!-- E-mail -->
           <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef> E-mail </mat-header-cell>
-            <mat-cell *matCellDef="let person"> {{person.email}} </mat-cell>
+            <mat-cell *matCellDef="let person"> {{person?.email}} </mat-cell>
           </ng-container>
         
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

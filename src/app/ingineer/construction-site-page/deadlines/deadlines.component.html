@@ -1,39 +1,126 @@
 <h3>Сроки по проекту</h3>
 <mat-card>
     <div fxLayout="row" fxLayoutAlign="space-between"> 
-      <div fxFlex="50" class="text-left">
+       <div fxFlex="50" class="text-left">
           <mat-list role="list">
               <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Срок отведенный на работы: </span>  
+                  <p class="font-weight-bold">Срок отведенный на работы: 
+                    <span *ngIf="constructionSite?.deadlines">{{ constructionSite?.deadlines?.timeLimitForWork }}</span>
+                    {{ constructionSite?.deadlines?.timeLimitForWorkDays === 'calendarDays' ? 'к.д' : 'р.д' }}
+                  </p>  
               </mat-list-item>
               <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Срок оплаты по ГК: </span>  
+                  <p class="font-weight-bold">Срок оплаты по ГК: 
+                      <span *ngIf="constructionSite?.deadlines">{{ constructionSite?.deadlines?.timeLimitForPaymentContract}}</span>
+                      {{ constructionSite?.deadlines?.timeLimitForPaymentContract === 'calendarDays' ? 'к.д' : 'р.д' }}
+                  </p>  
               </mat-list-item>
               <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Плановая дата подписания ГК: </span> 
+                  <p class="font-weight-bold">Плановая дата подписания ГК: 
+                      <span *ngIf="constructionSite?.deadlines">
+                      {{ constructionSite?.deadlines?.planningDateOfSigningTender | date: 'dd/MM/yyyy' }}
+                    </span>
+                </p> 
               </mat-list-item>
               <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Плановая дата начала работ по ГК: </span> 
+                  <p class="font-weight-bold">Плановая дата начала работ по ГК: 
+                      <span *ngIf="constructionSite?.deadlines">
+                          {{ constructionSite?.deadlines?.planningDateOfStartingOfWork | date: 'dd/MM/yyyy'  }}
+                        </span>
+                    </p> 
               </mat-list-item>
           </mat-list>
       </div>
-      <div fxFlex="50" class="text-right">
-          <mat-list role="list">
-              <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Фактическая дата подписания ГК: </span>
-                  <button class="ml-4" mat-stroked-button color="warn">Изменить</button>
-              </mat-list-item>
-              <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Фактическая дата начала работ по ГК: </span>
-                  <button class="ml-4" mat-stroked-button color="warn">Изменить</button>  
-              </mat-list-item>
-              <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Плановая сдача объекта: </span> 
-              </mat-list-item>
-              <mat-list-item role="listitem">
-                  <span class="font-weight-bold">Плановая оплата по ГК: </span> 
-              </mat-list-item>
-          </mat-list>
-      </div>
+
+    
+                <div *ngIf="constructionSite?.hasOwnProperty('currentDeadlines'); else inputDeadlines"  fxFlex="50" class="text-right">
+                        <mat-list role="list">
+                            
+                            <mat-list-item role="listitem">
+                                    <p class="font-weight-bold">Фактическая дата подписания:
+                                  <span> 
+                                    {{constructionSite?.currentDeadlines?.actualDateOfSigningContract | date: 'dd/MM/yyyy'   }}
+                                  </span>
+                                </p>
+                       
+                                  
+    
+                            </mat-list-item>
+                           
+                            <mat-list-item role="listitem">
+                                <p class="font-weight-bold">Плановая сдача объекта: 
+                                <span>
+                                    {{ constructionSite?.currentDeadlines?.planningDateOfPaymentContract | date: 'dd/MM/yyyy'  }}
+                                </span>
+                            </p> 
+                 
+                                
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <p class="font-weight-bold">Плановая оплата по ГК: 
+                                <span>
+                                    {{ constructionSite?.currentDeadlines?.planningDateOfCompletionOfWorks | date: 'dd/MM/yyyy'  }}
+                                </span>
+                            </p>
+                        
+                
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+      
+
+          <ng-template #inputDeadlines>
+                <div fxFlex="50" class="text-right">
+                        <mat-list role="list">
+                            <mat-list-item role="listitem">
+                                  <span class="font-weight-bold">Фактическая дата подписания: </span>
+                                  <mat-form-field>
+                                      <input 
+                                      matInput 
+                                      [matDatepicker]="picker"
+                             
+                                      name="actualDateOfSigningContract"
+                                      [(ngModel)] = "actualDateOfSigningContract"
+                                      >
+                                      <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
+                                  <button class="ml-4" mat-stroked-button color="primary" (click)="picker.open()">Изменить</button>
+                         
+                      
+                            </mat-list-item>
+                            <mat-list-item role="listitem">
+                                <span class="font-weight-bold">Фактическая дата начала работ по ГК:</span>
+                                    <mat-form-field>
+                                        <input 
+                                        matInput 
+                                        [matDatepicker]="picker1"
+                                        (ngModelChange)="saveDate()"
+                                
+                                        name="actualDateOfStartingWork"
+                                        [(ngModel)] = "actualDateOfStartingWork"
+                                        >
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    <button class="ml-4" mat-stroked-button color="primary" (click)="picker1.open()">Изменить</button>
+                             
+
+                            </mat-list-item>
+                            <mat-list-item role="listitem"  *ngIf="isDate(planningDateOfPaymentContract)">
+                                <p class="font-weight-bold"> Плановая оплата по ГК:
+                                 <span>{{ planningDateOfPaymentContract | date: 'dd/MM/yyyy' }}</span>
+                                 </p>
+                            </mat-list-item>
+
+                             <mat-list-item role="listitem" *ngIf="isDate(planningDateOfCompletionOfWorks)">
+                                <p class="font-weight-bold"> Плановая сдача объекта:
+                                  <span *ngIf="planningDateOfCompletionOfWorks !== undefined">{{ planningDateOfCompletionOfWorks | date: 'dd/MM/yyyy' }}</span>
+                                </p>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+          </ng-template>
+     
+    
+      
     </div>
 </mat-card>

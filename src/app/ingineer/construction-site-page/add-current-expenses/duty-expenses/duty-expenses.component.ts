@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter   } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input  } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 /*** Interfaces ***/
 import { Expenditure } from '../../../../models/expenditure.model';
 
 /*** Services ***/
-import { CurrentExpendituresService } from '../../../../services/current-expenditures.service'
+import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
 @Component({
   selector: 'app-duty-expenses',
@@ -13,6 +13,7 @@ import { CurrentExpendituresService } from '../../../../services/current-expendi
   styleUrls: ['./duty-expenses.component.css']
 })
 export class DutyExpensesComponent implements OnInit {
+  @Input() _id:string;
   @Output() dutyExpenditureAdded = new EventEmitter<Expenditure>();
 
   dutyExpenditure: Expenditure;
@@ -21,16 +22,18 @@ export class DutyExpensesComponent implements OnInit {
   onAddDutyExpenditure(form: NgForm){
     this.dutyExpenditure = this.processForm(form)
     form.reset()
-    this.currentExpendituresService.addCurrentDutyExpenditures(this.dutyExpenditure)
+    this.constructionSiteService.addCurrentDutyExpenditures(this._id, this.dutyExpenditure)
     this.dutyExpenditureAdded.emit(this.dutyExpenditure)
   } 
 
    processForm(form){
-    return Object.assign({}, form.value)
+    const outputObject = Object.assign({}, form.value)
+    outputObject.typeOfExpense = 'duty'
+    return outputObject
   } 
 
   constructor(
-    public currentExpendituresService: CurrentExpendituresService
+    public constructionSiteService: ConstructionSiteService,
   ) { }
 
   ngOnInit() {

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
@@ -14,7 +14,8 @@ import { NewObjectComponent, AddContactModal } from './ingineer/add-construction
 import { ObjectComponent } from './ingineer/construction-site-page/object.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { IngineerComponent } from './ingineer/ingineer-main/ingineer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
@@ -23,7 +24,7 @@ import { CurrentConstructionSitesComponent } from './ingineer/ingineer-main/curr
 import { FinishedConstructionSitesComponent } from './ingineer/ingineer-main/finished-construction-sites/finished-construction-sites.component';
 import { ContactPersonsComponent } from './ingineer/construction-site-page/contact-persons/contact-persons.component';
 import { DeadlinesComponent } from './ingineer/construction-site-page/deadlines/deadlines.component';
-import { ContractorsComponent, AddNewContractor } from './ingineer/construction-site-page/contractors/contractors.component';
+import { ContractorsComponent } from './ingineer/construction-site-page/contractors/contractors.component';
 import { ExpensesComponent } from './ingineer/construction-site-page/expenses/expenses.component';
 import { AddCurrentExpensesComponent } from './ingineer/construction-site-page/add-current-expenses/add-current-expenses.component';
 import { CashExpensesComponent } from './ingineer/construction-site-page/add-current-expenses/cash-expenses/cash-expenses.component';
@@ -34,6 +35,10 @@ import { CashlessComponent } from './ingineer/construction-site-page/current-exp
 import { CashComponent } from './ingineer/construction-site-page/current-expenses/cash/cash.component';
 import { OnDutyComponent } from './ingineer/construction-site-page/current-expenses/on-duty/on-duty.component';
 import { SummaryComponent } from './operator/summary/summary.component';
+import { AddNewContractorDialogComponent } from './ingineer/construction-site-page/contractors/add-new-contractor-dialog/add-new-contractor-dialog.component';
+import { AddSellerComponent } from './ingineer/construction-site-page/add-current-expenses/add-seller/add-seller.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
+
 
 
 @NgModule({
@@ -55,7 +60,6 @@ import { SummaryComponent } from './operator/summary/summary.component';
     ContactPersonsComponent,
     DeadlinesComponent,
     ContractorsComponent,
-    AddNewContractor,
     ExpensesComponent,
     AddCurrentExpensesComponent,
     CashExpensesComponent,
@@ -65,7 +69,9 @@ import { SummaryComponent } from './operator/summary/summary.component';
     CashlessComponent,
     CashComponent,
     OnDutyComponent,
-    SummaryComponent
+    SummaryComponent,
+    AddNewContractorDialogComponent,
+    AddSellerComponent
   
   ],
   imports: [
@@ -75,10 +81,11 @@ import { SummaryComponent } from './operator/summary/summary.component';
     AppRoutingModule,
     FlexLayoutModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent],
-  entryComponents: [AddContactModal, AddNewContractor]
+  entryComponents: [AddContactModal, AddNewContractorDialogComponent, AddSellerComponent]
 })
 export class AppModule { }

@@ -10,9 +10,12 @@ import { ConstructionSite } from '../../../models/construction-site.model';
 export class ExpensesComponent implements OnInit {
   @Input() constructionSite: ConstructionSite 
 
+  
+
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

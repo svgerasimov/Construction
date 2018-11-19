@@ -77,12 +77,12 @@
                                 <span matSuffix>.00</span>
                             </mat-form-field>
         
-                                <mat-checkbox 
+                          <!--       <mat-checkbox 
                                     name="bankGuarantee" 
                                     ngModel
                                     >Банковская гарантия
                                  
-                                </mat-checkbox>
+                                </mat-checkbox> -->
                  
                     
 
@@ -157,7 +157,8 @@
                           <input 
                             name="dateOfWinningOfTender" 
                             matInput 
-                            [matDatepicker]="picker1" 
+                            [matDatepicker]="picker1"
+                    
                             placeholder="Дата выйгрыша тендера"
                             ngModel
                             >
@@ -217,14 +218,20 @@
                           <mat-radio-button value="calendarDays">Календарные дни</mat-radio-button>
                       </mat-radio-group>
             
-                      <button 
-                        type="submit" 
-                        mat-raised-button 
-                        color="primary"
-                        [disabled]="!isPlanningFigureFilled"
-                        
-    
-                      >Отправить</button>
+                     
+                      
+
+                      <button
+                            type="submit" 
+                            mat-raised-button 
+                            color="primary"
+                            [disabled]="!isPlanningFigureFilled">
+                        <!-- <a [routerLink]="['/ingineer']">Подробнее</a> -->
+                        Сохранить
+                      </button>
+
+            
+                     
             
                 </form>
     </mat-card>

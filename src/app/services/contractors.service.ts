@@ -25,10 +25,11 @@ export class ContractorService{
      }
 
      makeContractorForeman(contr: Contractor){
-        const i = this.contractors.findIndex(contractor => contractor.id === contr.id)
+        const i = this.contractors.findIndex(contractor => contractor.name === contr.name)
         this.contractors[i].isForeman = true
-        console.log(this.contractors[i])
+     
      }
-  
-    
+
+     
+
 }

@@ -1,13 +1,10 @@
 export interface Contractor {
-    id: number;
     isForeman?: boolean;
     name: string;
     secondName: string;
     patronymic: string;
-    phone: number;
+    phone: any;
     typeOfWork: string;
-    scanOfPassport?: any;
-    scanOfPatent?: any;
-    scanOfContractB?: any;
-    scanOfContractA?: any;
+    docsFiles?: any;
+    docsPaths?: any;
 }

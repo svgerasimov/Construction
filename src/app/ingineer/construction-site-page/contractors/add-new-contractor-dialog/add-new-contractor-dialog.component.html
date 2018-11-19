@@ -1,0 +1,104 @@
+<form [formGroup]="form" (ngSubmit)="submit(form)">
+  <h1 mat-dialog-title>Добавление исполнителя</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width: 100%">
+    <input 
+        matInput 
+        formControlName="name"
+        placeholder="Имя"
+    >
+    <mat-error *ngIf="form.get('name').invalid">Введите имя</mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <input 
+        matInput 
+        formControlName="secondName"
+        placeholder="Фамилия"        
+    >
+    <mat-error *ngIf="form.get('secondName').invalid">Введите фамилию</mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <input 
+        matInput 
+        formControlName="patronymic"
+        placeholder="Отчество"        
+    >
+    <mat-error *ngIf="form.get('patronymic').invalid">Введите отчество</mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+    <input 
+        matInput 
+        formControlName="typeOfWork"
+        placeholder="Тип работы"
+        
+    >
+    <mat-error *ngIf="form.get('typeOfWork').invalid">Введите тип работы</mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 100%">
+      <input 
+          matInput 
+          formControlName="phone"
+          placeholder="Телефон"       
+      >
+      <mat-error *ngIf="form.get('phone').invalid">Введите номер телефона</mat-error>
+  </mat-form-field>
+
+          
+  <!-- Скан паспорта -->
+  <div>
+      <button mat-button type="button" mat-stroked-button (click)="passportPicker.click()">Загрузить скан паспорта</button>
+      <input type="file" style="visibility: hidden" #passportPicker (change)="onPassportLoaded($event)">
+    </div>
+    <div class="file-preview" *ngIf="passportPreview !== '' && passportPreview">
+      <img [src]="passportPreview" [alt]="form.value.name">
+    </div>
+
+  <!-- Скан патента -->
+    <div>
+      <button mat-button type="button" mat-stroked-button (click)="patentPicker.click()">Загрузить скан патента</button>
+      <input type="file" style="visibility: hidden" #patentPicker (change)="onPatentLoaded($event)">
+    </div>
+    <div class="file-preview" *ngIf="patentPreview !== '' && patentPreview">
+      <img [src]="patentPreview" [alt]="form.value.name">
+    </div>
+
+
+  <!-- Скан договора А -->
+    <div>
+      <button mat-button type="button" mat-stroked-button (click)="contractA.click()">Загрузить скан договора А</button>
+      <input type="file" style="visibility: hidden" #contractA (change)="onContractALoaded($event)">
+    </div>
+    <div class="file-preview" *ngIf="contractAPreview !== '' && contractAPreview">
+      <img [src]="contractAPreview" [alt]="form.value.name">
+    </div>
+
+
+          <!-- Скан договора B -->
+          <div>
+              <button mat-button type="button" mat-stroked-button (click)="contractB.click()">Загрузить скан договора B</button>
+              <input type="file" style="visibility: hidden" #contractB (change)="onContractBLoaded($event)">
+            </div>
+            <div class="file-preview" *ngIf="contractBPreview !== '' && contractBPreview">
+              <img [src]="contractBPreview" [alt]="form.value.name">
+            </div>
+
+
+  <!-- Скан договора C -->
+    <div>
+      <button mat-button type="button" mat-stroked-button (click)="contractC.click()">Загрузить скан договора C</button>
+      <input type="file" style="visibility: hidden" #contractC (change)="onContractCLoaded($event)">
+    </div>
+    <div class="file-preview" *ngIf="contractCPreview !== '' && contractCPreview">
+      <img [src]="contractCPreview" [alt]="form.value.name">
+    </div>
+
+
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Назад</button>
+  <button mat-button type="submit" [disabled]="!form.valid">Готово</button>
+</div>
+
+</form>
+

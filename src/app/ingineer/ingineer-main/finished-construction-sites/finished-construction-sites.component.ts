@@ -37,7 +37,7 @@ export class FinishedConstructionSitesComponent implements OnInit {
 }
 
 const FINISHED_CONSTRUCTION_SITES_DATA = [
-  {
+ /*  {
     position: 1, 
     nameOfConstructionSite: 'Ремонт кабинета географии', 
     customer: 'МБОУ СОШ №39', 
@@ -59,5 +59,5 @@ const FINISHED_CONSTRUCTION_SITES_DATA = [
     operationalCosts: 1123,
     premiumPay: 1749,
     isPremiumPayGranted: false
-  }
+  } */
 ]

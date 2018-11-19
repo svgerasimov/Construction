@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from "@angular/common/http"
 
 import { Expenditure } from '../../../models/expenditure.model';
 
@@ -8,6 +9,7 @@ import { Expenditure } from '../../../models/expenditure.model';
   styleUrls: ['./add-current-expenses.component.css']
 })
 export class AddCurrentExpensesComponent implements OnInit {
+  @Input() _id
 
   private currentExpenditures = {
     cashLessExpenditures: [],
@@ -17,13 +19,12 @@ export class AddCurrentExpensesComponent implements OnInit {
   constructor( ) { }
 
   ngOnInit() {
-  
   }
 
   onCashExpenditureAdded(expenditureData: Expenditure){
 
     this.currentExpenditures.cashExpenditures.push(expenditureData)
-   
+ 
   }
 
   onCashLessExpenditureAdded(expenditureData: Expenditure) {
@@ -33,6 +34,7 @@ export class AddCurrentExpensesComponent implements OnInit {
 
   onDutyExpenditureAdded(expenditureData: Expenditure){
     this.currentExpenditures.dutyExpenditures.push(expenditureData)
+ 
  
   }
 

@@ -1,86 +1,106 @@
 
     <h3>Прямые исполнители</h3>
     <div class="mb-4">
-        <button mat-flat-button color="primary" (click)="openDialog()">Добавить исполнителя</button>
+        <button mat-flat-button color="primary" (click)="openAddNewContractorDialog()">Добавить исполнителя</button>
     </div>
 
-    <mat-table [dataSource]="contractors" matSort class="mat-elevation-z8">
+    <mat-table *ngIf="constructionSites" [dataSource]="contractors" matSort class="mat-elevation-z8">
       
         <!-- Фамилия -->
         <ng-container matColumnDef="secondName">
           <mat-header-cell *matHeaderCellDef> Фамилия </mat-header-cell>
-          <mat-cell *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.secondName}} </mat-cell>
+          <mat-cell   *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.secondName}} </mat-cell>
         </ng-container>
       
         <!-- Имя -->
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Имя </mat-header-cell>
-          <mat-cell *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.name}} </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Имя </mat-header-cell>
+          <mat-cell   *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.name}} </mat-cell>
         </ng-container>
 
         <!-- Отчество -->
         <ng-container matColumnDef="patronymic">
-          <mat-header-cell *matHeaderCellDef> Отчество </mat-header-cell>
-          <mat-cell *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.patronymic}} </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Отчество </mat-header-cell>
+          <mat-cell   *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.patronymic}} </mat-cell>
         </ng-container>
 
         <!-- Вид работ -->
         <ng-container matColumnDef="typeOfWork">
-          <mat-header-cell *matHeaderCellDef> Вид работ </mat-header-cell>
-          <mat-cell *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.typeOfWork}} </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Вид работ </mat-header-cell>
+          <mat-cell   *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.typeOfWork}} </mat-cell>
         </ng-container>
 
         <!-- Номер телефона -->
         <ng-container matColumnDef="phone">
-          <mat-header-cell *matHeaderCellDef> Номер телефона </mat-header-cell>
-          <mat-cell *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.phone}} </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Номер телефона </mat-header-cell>
+          <mat-cell  *matCellDef="let contractor" [ngStyle]="{fontWeight: !!contractor.isForeman ? 700 : 400}"> {{contractor.phone}} </mat-cell>
         </ng-container>
 
+                 <!-- Скан паспорта -->
+                 <ng-container matColumnDef="scanOfPassport">
+                    <mat-header-cell  *matHeaderCellDef> Скан паспорта </mat-header-cell>
+                    <mat-cell *matCellDef="let contractor"> 
+                      <div class="scan">
+                        <a [href]="contractor.docsPaths[3]" target="_blank">
+                            <img [src]="contractor.docsPaths[3]" [alt]="contractor.name">
+                        </a>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
+          
+                  <!-- Скан патента -->
+                  <ng-container matColumnDef="scanOfPatent">
+                    <mat-header-cell  *matHeaderCellDef> Скан патента </mat-header-cell>
+                    <mat-cell   *matCellDef="let contractor"> 
+                      <div class="scan">
+                       <a [href]="contractor.docsPaths[4]" target="_blank">
+                            <img [src]="contractor.docsPaths[4]" [alt]="contractor.name">
+                        </a>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
 
-        <!-- Скан паспорта -->
-        <ng-container matColumnDef="scanOfPassport">
-          <mat-header-cell *matHeaderCellDef> Скан паспорта </mat-header-cell>
-          <mat-cell *matCellDef="let contractor"> ??</mat-cell>
-        </ng-container>
-
-        <!-- Скан патента -->
-        <ng-container matColumnDef="scanOfPatent">
-          <mat-header-cell *matHeaderCellDef> Скан патента </mat-header-cell>
-          <mat-cell *matCellDef="let contractor"> ??</mat-cell>
-        </ng-container>
-
-        <!-- Скан Договора Б -->
-        <ng-container matColumnDef="scanOfContractB">
-          <mat-header-cell *matHeaderCellDef> Скан Договора Б  </mat-header-cell>
-          <mat-cell *matCellDef="let contractor"> ?? </mat-cell>
-        </ng-container>
-
+    
         <!-- Скан Договора А -->
         <ng-container matColumnDef="scanOfContractA">
-          <mat-header-cell *matHeaderCellDef> Скан Договора А </mat-header-cell>
-          <mat-cell *matCellDef="let contractor"> ?? </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Скан Договора А </mat-header-cell>
+          <mat-cell  *matCellDef="let contractor"> 
+              <div class="scan">
+                <a [href]="contractor.docsPaths[0]" target="_blank">
+                    <img [src]="contractor.docsPaths[0]" [alt]="contractor.name">
+                </a>
+                </div> 
+            </mat-cell>
         </ng-container>
+
+          <!-- Скан Договора Б -->
+          <ng-container matColumnDef="scanOfContractB">
+              <mat-header-cell  *matHeaderCellDef> Скан Договора Б  </mat-header-cell>
+              <mat-cell  *matCellDef="let contractor"> 
+                  <div class="scan">
+                    <a [href]="contractor.docsPaths[1]" target="_blank">
+                        <img [src]="contractor.docsPaths[1]" [alt]="contractor.name">
+                    </a>
+                  </div> 
+              </mat-cell>
+            </ng-container>
 
         <!-- Скан Договора C -->
         <ng-container matColumnDef="scanOfContractC">
-          <mat-header-cell *matHeaderCellDef> Скан Договора C </mat-header-cell>
-          <mat-cell *matCellDef="let contractor">
-             <span>??</span>
-             <button
-                *ngIf="!isForemanAssigned" 
-                (click)="onMakeContractorForeman(this.contractor)" 
-                mat-icon-button 
-                color="primary" 
-                class="ml-4"
-            >
-                <mat-icon>star</mat-icon>
-            </button>
-          </mat-cell>
+          <mat-header-cell  *matHeaderCellDef> Скан Договора C </mat-header-cell>
+           <mat-cell *matCellDef="let contractor">
+              <div class="scan">
+                <a [href]="contractor.docsPaths[2]" target="_blank">
+                  <img [src]="contractor.docsPaths[2]" [alt]="contractor.name">
+                </a>
+              </div>
+           </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
     <small>***Добавить паспоные данные + данные патента + сканы паспортов + сканы договоров (белые/серые)</small>
 
 

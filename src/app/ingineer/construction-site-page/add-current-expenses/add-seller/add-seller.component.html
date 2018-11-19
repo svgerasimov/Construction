@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="submit(form)">
+    <h1 mat-dialog-title>Добавление продавца</h1>
+  <div mat-dialog-content>
+    <mat-form-field style="width: 100%">
+      <input 
+          matInput 
+          formControlName="name"
+          placeholder="Наименование"
+      >
+      <mat-error *ngIf="form.get('name').invalid">Введите наименование продавца</mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+      <input 
+          matInput 
+          formControlName="inn"
+          placeholder="ИНН"        
+      >
+      <mat-error *ngIf="form.get('inn').invalid">Введите ИНН организации</mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Назад</button>
+    <button mat-button type="submit" [disabled]="!form.valid">Готово</button>
+  </div>
+  
+  </form>
+  
+  

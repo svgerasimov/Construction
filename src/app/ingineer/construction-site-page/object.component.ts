@@ -1,21 +1,31 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router} from '@angular/router';
+import { Router, ParamMap} from '@angular/router';
+import { ActivatedRoute } from '@angular/router'
 
 /** Interfaces **/
-import { Contractor } from "../../models/contractor.model"
+
 import { ConstructionSite } from '../../models/construction-site.model';
+import { Contractor } from '../../models/contractor.model';
 
 /*** Services ***/
 import { ConstructionSiteService } from '../../services/construction-sites.service'
-import { ContactPerson } from 'src/app/models/contact-person.model';
+//import { ContractorService } from '../../services/contractors.service'
+
 
 @Component({
   selector: 'app-object',
   templateUrl: './object.component.html',
   styleUrls: ['./object.component.css']
 })
-export class ObjectComponent implements OnInit, OnDestroy {
+
+
+export class ObjectComponent implements OnInit {
+  private constSiteId: string;
+  public constructionSite: ConstructionSite;
+
+
+
   isEmpty(obj) {
     for(var key in obj) {
         if(this.hasOwnProperty(key))
@@ -23,33 +33,43 @@ export class ObjectComponent implements OnInit, OnDestroy {
     }
     return true;
   }
-  CURRENT_CONSTRUCTION_SITE: ConstructionSite = new Object() 
-  
-  private CURRENT_CONSTRUCTION_SITE_SUB: Subscription;
+
+
   
   constructor(
     public constructionSiteService: ConstructionSiteService,
+    //public contractorService: ContractorService,
+    public route: ActivatedRoute,
     private router: Router
     ) {}
 
 
   ngOnInit() {
-    this.CURRENT_CONSTRUCTION_SITE = this.constructionSiteService.getSelectedConstructionSite();
-
-    this.CURRENT_CONSTRUCTION_SITE_SUB = this.constructionSiteService.getSelectedConstructionSiteUpdateListener().subscribe((constructionSite: ConstructionSite) => {
-    this.CURRENT_CONSTRUCTION_SITE = constructionSite;
-   });
-
-   this.contractors = this.CURRENT_CONSTRUCTION_SITE.contractors
-   this.contactPersons = this.CURRENT_CONSTRUCTION_SITE.contactPersons
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.has('constSiteId')) {
+        this.constSiteId = paramMap.get('constSiteId')
+          this.constructionSiteService.getConstructionSite(this.constSiteId).subscribe(constructionSite => {
+            this.constructionSite = constructionSite
+        }) 
+      }
+    })
   }
 
 
-  ngOnDestroy() {
-    this.CURRENT_CONSTRUCTION_SITE_SUB.unsubscribe()
+  onCurrentDeadlinesAdded(currentDeadlines: { actualDateOfSigningContract: Date,
+                                              actualDateOfStartingWork: Date,
+                                              planningDateOfCompletionOfWorks: Date,
+                                              planningDateOfPaymentContract: Date
+                                            }){
+                                         
+                                           
+        this.constructionSiteService.updateConstructionSiteCurrentDeadlines(this.constSiteId, currentDeadlines)
   }
 
-  contractors: Contractor[] = this.CURRENT_CONSTRUCTION_SITE.contractors
-  contactPersons: ContactPerson[] = this.CURRENT_CONSTRUCTION_SITE.contactPersons
+   /*  onContractorsAdded(contractors: Contractor[]) {
+      this.constructionSiteService.updateConstructionSiteContractors(this.constSiteId, contractors)
+  }  */
+
+
 }
 

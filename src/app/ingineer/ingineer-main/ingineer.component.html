@@ -6,7 +6,7 @@
     <mat-card><span>Долги по документам:</span>  {{ingineer.documentsDebts }}</mat-card>
   </section>
   <section>
-    <button mat-raised-button>Запросить нал</button>
+    <button [disabled]= true mat-raised-button>Запросить нал</button>
     <button (click)="onAddNewObj()" mat-raised-button>Добавить объект</button>
   </section>
   <section>

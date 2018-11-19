@@ -1,4 +1,6 @@
-import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input  } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource } from "@angular/material";
+import { AddSellerComponent } from '../add-seller/add-seller.component'
 
 import { NgForm } from '@angular/forms';
 
@@ -6,7 +8,7 @@ import { NgForm } from '@angular/forms';
 import { Expenditure } from '../../../../models/expenditure.model';
 
 /*** Services ***/
-import { CurrentExpendituresService } from '../../../../services/current-expenditures.service'
+import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
 @Component({
   selector: 'app-cashless-expenses',
@@ -14,31 +16,49 @@ import { CurrentExpendituresService } from '../../../../services/current-expendi
   styleUrls: ['./cashless-expenses.component.css']
 })
 export class CashlessExpensesComponent implements OnInit {
-
+  @Input() _id: string
   @Output() cashLessExpenditureAdded = new EventEmitter<Expenditure>();
 
   cashLessExpenditure: Expenditure;
   valueAddedTaxCashLess: number = 0;
+  seller: any;
 
   onAddCashLessExpenditure(form: NgForm){
     this.cashLessExpenditure = this.processForm(form)
     this.valueAddedTaxCashLess = this.cashLessExpenditure.valueAddedTax
+    this.cashLessExpenditure['seller'] = this.seller
+    console.log(this.cashLessExpenditure)
+    
     form.reset()
-    this.currentExpendituresService.addCurrentCashLessExpenditures(this.cashLessExpenditure)
-    this.cashLessExpenditureAdded.emit(this.cashLessExpenditure)
+    this.constructionSiteService.addCurrentCashLessExpenditures(this._id, this.cashLessExpenditure)
+    //this.cashLessExpenditureAdded.emit(this.cashLessExpenditure)
   } 
 
    processForm(form){
     const outputObject = Object.assign({}, form.value)
     outputObject.valueAddedTax = Math.round((outputObject.sumOfAccount * 18) / 118)
+    outputObject.typeOfExpense = 'cashless'
     return outputObject
   } 
 
   constructor(
-    public currentExpendituresService: CurrentExpendituresService,
+    private dialog: MatDialog,
+    public constructionSiteService: ConstructionSiteService,
   ) { }
 
   ngOnInit() {
+  }
+
+  addSellerDialogRef: MatDialogRef<AddSellerComponent>
+
+  openAddNewSellerDialog(){
+
+     const addSellerDialogRefRef = this.dialog.open(AddSellerComponent, {
+       width: '400px'
+     })
+
+     addSellerDialogRefRef.afterClosed().subscribe(newSeller => this.seller = newSeller)
+
   }
 
 

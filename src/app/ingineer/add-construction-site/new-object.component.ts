@@ -1,7 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, DateAdapter} from "@angular/material";
 import { Router } from '@angular/router';
+
+
+import { CustomDateAdapter } from './date.adapter'
+
+
 
 /*** Interfaces ***/
 import { ContactPerson } from "../../models/contact-person.model"
@@ -11,13 +16,23 @@ import { ConstructionSite } from "../../models/construction-site.model"
 import { ConstructionSiteService } from '../../services/construction-sites.service'
 
 
+
 @Component({
   selector: 'app-new-object',
   templateUrl: './new-object.component.html',
-  styleUrls: ['./new-object.component.css']
+  styleUrls: ['./new-object.component.css'],
+  providers: [
+
+     {
+        provide: DateAdapter, useClass: CustomDateAdapter
+    } 
+
+]
+
 })
 
 export class NewObjectComponent implements OnInit {
+
     name: string;
     secondName: string;
     patronymic: string;
@@ -68,17 +83,21 @@ export class NewObjectComponent implements OnInit {
 
   onAddConstructionSiteData(form: NgForm){
   
-      const constructionSiteData: Object = new Object()
+      const constructionSiteData: any = {
+        deadlines: {}
+      }
       
       for (let entry in form.value){
-        if(form.value[entry] !== ""){
+       if(form.value[entry] !== ""){
+
+          if(form.value[entry] instanceof Date || entry.includes("timeLimit")){
+            constructionSiteData.deadlines[entry] = form.value[entry] 
+            continue
+          }
           constructionSiteData[entry] = form.value[entry]
         }
       }
 
-    
-
-   
       for(let entry in constructionSiteData){
         this.constructionSite[entry] = constructionSiteData[entry];
       }
@@ -87,22 +106,24 @@ export class NewObjectComponent implements OnInit {
         this.constructionSite.contactPersons = this.contactPersons;
       } 
 
+
       this.constructionSiteService.addConstructionSite(this.constructionSite)
 
-      this.router.navigate(['ingineer'])
+       this.router.navigate(['ingineer'])
     
   }
 
 
   onAddFinances(form: NgForm){
 
-      const planningExpenses = Object.assign({}, form.value)
+   
+       const planningExpenses = Object.assign({}, form.value)
+
+    
        const planningExpensesToCalculate = Object.assign({}, planningExpenses)
-       if(planningExpensesToCalculate.bankGuarantee){
-          delete planningExpensesToCalculate.bankGuarantee
-       }
+     
        
- 
+
       let valuesToCalculate = Object.values(planningExpensesToCalculate)
 
       let sumOfExpenses = parseInt(Object.keys(valuesToCalculate).
@@ -112,7 +133,8 @@ export class NewObjectComponent implements OnInit {
       planningExpenses.sumOfCosts = sumOfExpenses
 
       this.constructionSite.planningExpenditures = planningExpenses
-      this.isPlanningFigureFilled = true
+      this.isPlanningFigureFilled = true 
+
       
   }
 }

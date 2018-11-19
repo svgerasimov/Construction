@@ -1,0 +1,10 @@
+mat-list-item  p span {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+mat-list-item  p > span {
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+

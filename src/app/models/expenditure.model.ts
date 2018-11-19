@@ -2,7 +2,7 @@ import { Product } from './product.model'
 
 export interface Expenditure {
     accountNumber?: number;
-    dateOfAccount: Date;
+    dateOfAccount?: Date;
     sumOfAccount: number;
     valueAddedTax?: number;
     paymentAppointment: string;
