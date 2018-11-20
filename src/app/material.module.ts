@@ -7,6 +7,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
 import { 
         MatPaginatorModule, 
         MatTableModule, 
@@ -43,7 +44,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatTooltipModule,
         MatDividerModule,
         MatCheckboxModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatSelectModule
     
     ],
     exports: [
@@ -65,7 +67,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatTooltipModule,
         MatDividerModule,
         MatCheckboxModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatSelectModule
     ]
 })
 export class MaterialModule {}

@@ -12,11 +12,11 @@
               </div>
               <div fxFlex="50" class="text-left">
                 <mat-list role="list">
-                    <mat-list-item role="listitem">
+                    <mat-list-item role="listitem" *ngIf="constructionSite?.planningExpenditures.proposalSecurity">
                         <span class="font-weight-bold mr-3">Обчеспечение заявки: </span> 
                           {{ constructionSite?.planningExpenditures?.proposalSecurity | currency:'RUB':'symbol-narrow'  }} 
                     </mat-list-item>
-                    <mat-list-item role="listitem">
+                    <mat-list-item role="listitem"  *ngIf="constructionSite?.planningExpenditures.contractSecurity">
                         <span class="font-weight-bold mr-3">Обчеспечение контракта:  </span> 
                          {{ constructionSite?.planningExpenditures?.contractSecurity | currency:'RUB':'symbol-narrow'  }}
                     </mat-list-item> 
@@ -58,28 +58,33 @@
                   </mat-list>
               </mat-list>
           </div>
-      <!--     <div fxFlex="50" class="text-right">
+           <div fxFlex="50" class="text-right">
               <mat-list role="list">
                   <mat-list role="list">
                        
                       <mat-list-item role="listitem">
-                          <span class="font-weight-bold mr-3">Текущие затраты ВСЕГО:  </span>  
+                          <span class="font-weight-bold mr-3">Текущие затраты ВСЕГО:  </span> 
+                          {{ sumOfExpenses | currency:'RUB':'symbol-narrow'  }} 
                       </mat-list-item>
                       <mat-list-item role="listitem">
                           <span class="font-weight-bold mr-3">Текущие затраты на материалы:  </span> 
+                          {{ materialCosts | currency:'RUB':'symbol-narrow' }}
                       </mat-list-item>
-                      <mat-list-item role="listitem">
+                    <!--   <mat-list-item role="listitem">
                           <span class="font-weight-bold mr-3">Текущие затраты на ФОТ:  </span> 
-                      </mat-list-item>
+                          
+                      </mat-list-item> -->
                       <mat-list-item role="listitem">
                           <span class="font-weight-bold mr-3">Текущие затраты на ГСМ:  </span> 
+                          {{ petrolOilLubricantsCosts | currency:'RUB':'symbol-narrow' }}
                       </mat-list-item>
                       <mat-list-item role="listitem">
                           <span class="font-weight-bold mr-3">Текущие прочие затраты:  </span> 
+                          {{ otherCosts | currency:'RUB':'symbol-narrow'  }}
                       </mat-list-item>
                   </mat-list>
               </mat-list>
-          </div> -->
+          </div>
         </div>
     </mat-card>
 </div>

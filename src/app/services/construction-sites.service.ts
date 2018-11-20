@@ -14,6 +14,8 @@ import { Expenditure } from '../models/expenditure.model'
 export class ConstructionSiteService {
     /* Строительные объекты */
    private constructionSites = [];
+   private credentialsOfCreator: any =  ""
+   private credentialsOfCreatorUpdated = new Subject()
    private constructionSitesUpdated = new Subject();
 
 
@@ -28,13 +30,23 @@ export class ConstructionSiteService {
         'http://localhost:3000/api/construction-sites'
       )
 
-        .subscribe((constrSitesData) => {
-            console.log(constrSitesData)
+        .subscribe((constrSitesData: {message: string, constructionSites: ConstructionSite[], credentialsOfCreator: any }) => {
             this.constructionSites = constrSitesData.constructionSites
-            
+            this.credentialsOfCreator = constrSitesData.credentialsOfCreator
+
             this.constructionSitesUpdated.next([...this.constructionSites])
+            this.credentialsOfCreatorUpdated.next(this.credentialsOfCreator.slice(0)) 
+         
         })
+      
         
+    }
+
+    getCredentialsOfCreator() {
+      return this.credentialsOfCreator
+    }
+    getCredentialsOfCreatorUpdateListener() {
+      return this.credentialsOfCreatorUpdated.asObservable();
     }
 
     getConstructionSiteUpdateListener() {
@@ -44,6 +56,7 @@ export class ConstructionSiteService {
 
     getConstructionSite(_id: string){
        return this.http.get('http://localhost:3000/api/construction-sites/' + _id)
+      
     }
 
 
@@ -99,7 +112,7 @@ export class ConstructionSiteService {
 
 
 
-    /* Duty Expenses */
+   
     private dutyExpenditures: Expenditure[] = []
     private dutyExpendituresUpdated = new Subject<Expenditure[]>();
 
@@ -114,13 +127,32 @@ export class ConstructionSiteService {
 
      addCurrentCashLessExpenditures(_id: string, cashLessExpense: Expenditure){
         const cashLessExpenditure: Expenditure = cashLessExpense;
-        this.cashLessExpenditures.push(cashLessExpenditure) 
-        this.CashLessExpendituresUpdated.next([...this.cashLessExpenditures])
-         this.http.patch('http://localhost:3000/api/construction-sites/' + _id, cashLessExpenditure)
+
+         this.http.patch('http://localhost:3000/api/construction-sites/add-cashless-expenditure/' + _id, cashLessExpenditure)
         .subscribe(response => {
+            console.log(response)
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)
             updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures.push(cashLessExpenditure)
+           
+
+             /* Material Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures.length - 1].itemOfExpenditure === 'Материалы') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.materialCosts.push(cashLessExpenditure)
+            }
+
+            /* petrolOilLubricants Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures.length - 1].itemOfExpenditure === 'ГСМ') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.petrolOilLubricantsCosts.push(cashLessExpenditure)
+            }
+
+            /* other Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashlessExpenditures.length - 1].itemOfExpenditure === 'Прочее') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.otherCosts.push(cashLessExpenditure)
+            }
+
+
+
             this.constructionSites = updatedConstructionSites
             this.constructionSitesUpdated.next([...this.constructionSites])
         })
@@ -130,30 +162,67 @@ export class ConstructionSiteService {
 
      addCurrentCashExpenditures(_id: string, cashExpense: Expenditure){
          const cashExpenditure: Expenditure = cashExpense;
-/*         this.cashExpenditures.push(cashExpenditure)
-        this.CashExpendituresUpdated.next([...this.cashExpenditures]) */
-          this.http.patch('http://localhost:3000/api/construction-sites/' + _id, cashExpenditure)
+
+          this.http.patch('http://localhost:3000/api/construction-sites/add-cash-expenditure/' + _id, cashExpenditure)
         .subscribe(response => {
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)
             updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures.push(cashExpenditure)
+
+
+             /* Material Costs */
+             if(updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures.length - 1].itemOfExpenditure === 'Материалы') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.materialCosts.push(cashExpenditure)
+            }
+
+            /* petrolOilLubricants Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures.length - 1].itemOfExpenditure === 'ГСМ') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.petrolOilLubricantsCosts.push(cashExpenditure)
+            }
+
+            /* other Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures[updatedConstructionSites[oldConstructionSiteIndex].cashExpenditures.length - 1].itemOfExpenditure === 'Прочее') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.otherCosts.push(cashExpenditure)
+            }
+
             this.constructionSites = updatedConstructionSites
             this.constructionSitesUpdated.next([...this.constructionSites])
         }) 
      }
 
+
+
+
      addCurrentDutyExpenditures(_id:string, dutyExpense: Expenditure){
         const dutyExpenditure: Expenditure = dutyExpense;
         this.dutyExpenditures.push(dutyExpenditure) 
         this.dutyExpendituresUpdated.next([...this.dutyExpenditures]) 
-         this.http.patch('http://localhost:3000/api/construction-sites/' + _id, dutyExpenditure)
+
+        this.http.patch('http://localhost:3000/api/construction-sites/add-duty-expenditure/' + _id, dutyExpenditure)
         .subscribe(response => {
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)
             updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures.push(dutyExpenditure)
+
+             /* Material Costs */
+             if(updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures[updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures.length - 1].itemOfExpenditure === 'Материалы') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.materialCosts.push(dutyExpenditure)
+            }
+
+            /* petrolOilLubricants Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures[updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures.length - 1].itemOfExpenditure === 'ГСМ') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.petrolOilLubricantsCosts.push(dutyExpenditure)
+            }
+
+            /* other Costs */
+            if(updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures[updatedConstructionSites[oldConstructionSiteIndex].dutyExpenditures.length - 1].itemOfExpenditure === 'Прочее') {
+                updatedConstructionSites[oldConstructionSiteIndex].itemsOfExpenditures.otherCosts.push(dutyExpenditure)
+            }
+
+
             this.constructionSites = updatedConstructionSites
             this.constructionSitesUpdated.next([...this.constructionSites])
-        }) 
+        })  
      }
 
 

@@ -45,6 +45,37 @@
         planningDateOfPaymentContract: Date  
        },
 
+       /* Статьи расходов */
+       itemsOfExpenditures: {
+            materialCosts: [{
+                accountNumber: Number,
+                dateOfAccount: Date,
+                sumOfAccount: Number,
+                paymentAppointment: String,
+                valueAddedTax: Number,
+                typeOfExpense: String,
+                seller: {name: String, inn: Number },
+            }],
+            petrolOilLubricantsCosts: [{
+                accountNumber: Number,
+                dateOfAccount: Date,
+                sumOfAccount: Number,
+                paymentAppointment: String,
+                valueAddedTax: Number,
+                typeOfExpense: String,
+                seller: {name: String, inn: Number },
+            }],
+            otherCosts: [{
+                accountNumber: Number,
+                dateOfAccount: Date,
+                sumOfAccount: Number,
+                paymentAppointment: String,
+                valueAddedTax: Number,
+                typeOfExpense: String,
+                seller: {name: String, inn: Number },
+            }],
+       },
+
        contractors: [{
             isForeman: Boolean,
             name: String,

@@ -16,6 +16,18 @@ export class DutyExpensesComponent implements OnInit {
   @Input() _id:string;
   @Output() dutyExpenditureAdded = new EventEmitter<Expenditure>();
 
+  itemsOfExpenditure = [
+    {
+      value: 'Материалы'
+    },
+    {
+      value: 'ГСМ'
+    },
+    {
+      value: 'Прочее'
+    }
+  ]
+
   dutyExpenditure: Expenditure;
 
 
@@ -23,7 +35,7 @@ export class DutyExpensesComponent implements OnInit {
     this.dutyExpenditure = this.processForm(form)
     form.reset()
     this.constructionSiteService.addCurrentDutyExpenditures(this._id, this.dutyExpenditure)
-    this.dutyExpenditureAdded.emit(this.dutyExpenditure)
+   // this.dutyExpenditureAdded.emit(this.dutyExpenditure)
   } 
 
    processForm(form){

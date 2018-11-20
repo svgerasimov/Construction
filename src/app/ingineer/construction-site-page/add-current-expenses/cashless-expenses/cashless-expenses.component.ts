@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 /*** Interfaces ***/
 import { Expenditure } from '../../../../models/expenditure.model';
 
+
 /*** Services ***/
 import { ConstructionSiteService } from '../../../../services/construction-sites.service'
 
@@ -16,8 +17,23 @@ import { ConstructionSiteService } from '../../../../services/construction-sites
   styleUrls: ['./cashless-expenses.component.css']
 })
 export class CashlessExpensesComponent implements OnInit {
+  isSellerAdded: boolean = false
+
   @Input() _id: string
   @Output() cashLessExpenditureAdded = new EventEmitter<Expenditure>();
+
+  itemsOfExpenditure = [
+    {
+      value: 'Материалы'
+    },
+    {
+      value: 'ГСМ'
+    },
+    {
+      value: 'Прочее'
+    }
+  ]
+
 
   cashLessExpenditure: Expenditure;
   valueAddedTaxCashLess: number = 0;
@@ -27,11 +43,10 @@ export class CashlessExpensesComponent implements OnInit {
     this.cashLessExpenditure = this.processForm(form)
     this.valueAddedTaxCashLess = this.cashLessExpenditure.valueAddedTax
     this.cashLessExpenditure['seller'] = this.seller
-    console.log(this.cashLessExpenditure)
     
     form.reset()
     this.constructionSiteService.addCurrentCashLessExpenditures(this._id, this.cashLessExpenditure)
-    //this.cashLessExpenditureAdded.emit(this.cashLessExpenditure)
+  
   } 
 
    processForm(form){
@@ -58,6 +73,8 @@ export class CashlessExpensesComponent implements OnInit {
      })
 
      addSellerDialogRefRef.afterClosed().subscribe(newSeller => this.seller = newSeller)
+
+     this.isSellerAdded = true
 
   }
 

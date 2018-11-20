@@ -47,20 +47,7 @@
          ngModel
          >
    </mat-form-field>
-   <!-- НДС -->
- <!--   <mat-form-field>
-      <input 
-      type="number"
-      name="valueAddedTax"
-      matInput
-      placeholder="НДС"
-      [(ngModel)]="valueAddedTaxCash"
-      ngModel
-      value="valueAddedTaxCash"
-      readonly="readonly"
-      >
-   </mat-form-field> -->
-   <!-- Назначение платежа -->
+
    <mat-form-field>
       <input 
          name="paymentAppointment"
@@ -70,17 +57,20 @@
          ngModel
          >
    </mat-form-field>
-   <!-- Статья расходов -->
-   <mat-form-field>
-      <input 
-         name="itemOfExpenditure"
-         type="text"
-         matInput
-         placeholder="Статья расходов"
-         ngModel
-         >
-   </mat-form-field>
-   <button mat-raised-button color="primary">Сохранить</button>
+
+       <!-- Статья расходов -->
+       <mat-form-field>
+         
+          <mat-select placeholder="Статья расходов" ngModel name="itemOfExpenditure">
+              <mat-option
+                *ngFor="let itemOfExpenditure of itemsOfExpenditure" 
+                [value]="itemOfExpenditure.value">
+                {{itemOfExpenditure.value}}
+             </mat-option>
+          </mat-select>
+    
+         </mat-form-field>
+   <button [disabled]="!isSellerAdded" mat-raised-button color="primary">Сохранить</button>
    </form>
 </mat-card>
 </mat-expansion-panel>

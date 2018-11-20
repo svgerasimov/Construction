@@ -69,17 +69,18 @@
              ngModel
              >
        </mat-form-field>
+
        <!-- Статья расходов -->
        <mat-form-field>
-          <input 
-             name="itemOfExpenditure"
-             type="text"
-             matInput
-             placeholder="Статья расходов"
-             ngModel
-             >
+         <mat-select placeholder="Статья расходов" ngModel name="itemOfExpenditure">
+            <mat-option
+               *ngFor="let itemOfExpenditure of itemsOfExpenditure" 
+               [value]="itemOfExpenditure.value">
+               {{itemOfExpenditure.value}}
+            </mat-option>
+         </mat-select>
        </mat-form-field>
-       <button mat-raised-button color="primary">Сохранить</button>
+       <button [disabled]="!isSellerAdded" mat-raised-button color="primary">Сохранить</button>
        </form>
     </mat-card>
  </mat-expansion-panel>

@@ -73,7 +73,7 @@ router.post("", checkAuth,  (req, res, next) => {
  
  router.patch("/:_id", checkAuth, (req, res, next) => {
      
-     if (req.body.typeOfExpense === 'cash') {
+ /*     if (req.body.typeOfExpense === 'cash') {
          ConstructionSite.updateOne(
              {_id: req.params._id},
              {
@@ -86,8 +86,8 @@ router.post("", checkAuth,  (req, res, next) => {
          .then(result => {
              res.status(200).json({ message: "cashExpenditures updated successfully"}) 
          })
-     } 
-      else if (req.body.typeOfExpense === 'cashless') {
+     } */ 
+     /*  else if (req.body.typeOfExpense === 'cashless') {
          ConstructionSite.updateOne(
              {_id: req.params._id},
              {
@@ -99,8 +99,8 @@ router.post("", checkAuth,  (req, res, next) => {
          .then(result => {
              res.status(200).json({ message: "cashlessExpenditures updated successfully"}) 
          })
-     } 
-      else if (req.body.typeOfExpense === 'duty') {
+     } */ 
+/*        if (req.body.typeOfExpense === 'duty') {
          ConstructionSite.updateOne(
              {_id: req.params._id},
  
@@ -114,9 +114,9 @@ router.post("", checkAuth,  (req, res, next) => {
      
              res.status(200).json({ message: "dutyExpenditures updated successfully"}) 
          })
-     } 
+     }  */
      
-     else if (req.body.actualDateOfSigningContract) {
+      if (req.body.actualDateOfSigningContract) {
          ConstructionSite.updateOne(
              {_id: req.params._id},
              {currentDeadlines: req.body} 
@@ -127,8 +127,261 @@ router.post("", checkAuth,  (req, res, next) => {
      }
  })
 
+ /***Расходы***/
+router.patch("/add-cashless-expenditure/:_id", checkAuth, (req, res, next)=> {
+    const itemOfExpenditure = req.body.itemOfExpenditure
 
- 
+    /* Расходы на материалы */
+    if(itemOfExpenditure === 'Материалы'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.materialCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashlessExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "MaterialCosts and CashlessExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Расходы на ГСМ */
+    if(itemOfExpenditure === 'ГСМ'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.petrolOilLubricantsCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashlessExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "petrolOilLubricantsCosts and CashlessExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Прочие расходы */
+    if(itemOfExpenditure === 'Прочее'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.otherCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashlessExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "otherCosts and CashlessExpenditures updated successfully"}) 
+            })
+    }
+
+})
+
+
+
+router.patch("/add-cash-expenditure/:_id", checkAuth, (req, res, next)=> {
+    const itemOfExpenditure = req.body.itemOfExpenditure
+
+    /* Расходы на материалы */
+    if(itemOfExpenditure === 'Материалы'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.materialCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "MaterialCosts and CashExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Расходы на ГСМ */
+    if(itemOfExpenditure === 'ГСМ'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.petrolOilLubricantsCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "petrolOilLubricantsCosts and CashExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Прочие расходы */
+    if(itemOfExpenditure === 'Прочее'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.otherCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                            valueAddedTax:req.body.valueAddedTax,
+                            typeOfExpense: req.body.typeOfExpense,
+                            seller: {name: req.body.seller.name, inn:req.body.seller.inn }
+                        },
+                        cashExpenditures: req.body
+                    }
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "otherCosts and CashExpenditures updated successfully"}) 
+            })
+    }
+
+})
+
+
+
+router.patch("/add-duty-expenditure/:_id", checkAuth, (req, res, next)=> {
+   
+    const itemOfExpenditure = req.body.itemOfExpenditure
+
+    /* Расходы на материалы */
+    if(itemOfExpenditure === 'Материалы'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.materialCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                
+                            typeOfExpense: req.body.typeOfExpense,
+                    
+                        },
+                        dutyExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "MaterialCosts and DutyExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Расходы на ГСМ */
+    if(itemOfExpenditure === 'ГСМ'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.petrolOilLubricantsCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                         
+                            typeOfExpense: req.body.typeOfExpense,
+                          
+                        },
+                        dutyExpenditures: req.body
+                    }
+                 
+
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "petrolOilLubricantsCosts and DutyExpenditures updated successfully"}) 
+            })
+    }
+
+    /* Прочие расходы */
+    if(itemOfExpenditure === 'Прочее'){
+            ConstructionSite.updateOne(
+                {_id: req.params._id},
+                {
+                    $push:{
+                        "itemsOfExpenditures.otherCosts": {
+                            accountNumber: req.body.accountNumber,
+                            dateOfAccount:req.body.dateOfAccount,
+                            sumOfAccount:req.body.sumOfAccount,
+                            paymentAppointment: req.body.paymentAppointment,
+                           
+                            typeOfExpense: req.body.typeOfExpense,
+                          
+                        },
+                        dutyExpenditures: req.body
+                    }
+                }
+            )
+             .then(result => {
+                res.status(200).json({ message: "otherCosts and DutyExpenditures updated successfully"}) 
+            })
+    }
+
+    })
+
+
+
+
+/*** Добавление нового исполнителя ***/
  router.patch("/new-contractors/:_id", checkAuth, multer({storage: storage}).array('docsFiles[]', 5) ,(req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
   const docsPaths = req.files.map(file => {

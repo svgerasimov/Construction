@@ -20,9 +20,22 @@ import { ConstructionSiteService } from '../../../../services/construction-sites
   styleUrls: ['./cash-expenses.component.css']
 })
 export class CashExpensesComponent implements OnInit {
+  isSellerAdded: boolean = false
   @Input() _id: string;
 
  @Output() cashExpenditureAdded = new EventEmitter<Expenditure>();
+
+ itemsOfExpenditure = [
+  {
+    value: 'Материалы'
+  },
+  {
+    value: 'ГСМ'
+  },
+  {
+    value: 'Прочее'
+  }
+]
   
   constructor(
     private dialog: MatDialog,
@@ -41,7 +54,6 @@ export class CashExpensesComponent implements OnInit {
     this.cashExpenditure = this.processForm(form)
     this.cashExpenditure['seller'] = this.seller
     this.valueAddedTaxCash = this.cashExpenditure.valueAddedTax
-    console.log(this.cashExpenditure)
     form.reset()
     this.constructionSiteService.addCurrentCashExpenditures(this._id, this.cashExpenditure)
    // this.cashExpenditureAdded.emit(this.cashExpenditure)
@@ -67,6 +79,8 @@ export class CashExpensesComponent implements OnInit {
      })
 
      addSellerDialogRefRef.afterClosed().subscribe(newSeller => this.seller = newSeller)
+
+     this.isSellerAdded = true
 
   }
 }
