@@ -19,7 +19,7 @@ mongoose.connect("mongodb+srv://svyatoslav:5fB0brBwE0G15bz4@cluster0-vzgys.mongo
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use("/uploads", express.static(path.join("backend/uploads")))
+app.use("/uploads", express.static(path.join("uploads")))
 
 app.use((req, res, next)=> {
     res.setHeader("Access-Control-Allow-Origin", "*")

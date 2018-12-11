@@ -31,6 +31,7 @@ export class CashComponent implements OnInit, OnDestroy {
     'sumOfAccount', 
     'valueAddedTax', 
     'paymentAppointment',
+    'delete'
 /*      'areProductsEntered', 
     'areProductsPaid', 
     'UTDNumber', 
@@ -68,6 +69,10 @@ export class CashComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onDeleteExpenditureItem(accountNumber: number){
+    this.constructionSiteService.deleteCashExpenditureItem(this._id, accountNumber)
   }
 
 }

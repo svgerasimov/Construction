@@ -26,7 +26,7 @@ export class ContractorsComponent implements OnInit, OnDestroy {
   @Input() _id:string
   constructionSiteIndex: number
 
-  private constructionSites
+  public constructionSites
   private constructionSites_sub: Subscription
 
   contractors = new MatTableDataSource<Contractor>(this.constructionSites);

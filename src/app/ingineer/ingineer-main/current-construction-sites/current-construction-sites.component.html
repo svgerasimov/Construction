@@ -35,23 +35,31 @@
                     <span>
                         {{constructionSite?.planningExpenditures?.sumOfCosts}}
                     </span> 
-                     
-                  <a 
+                    <a 
                     [routerLink]="['/ingineer', constructionSite._id]"
                       mat-stroked-button 
                       color="primary">
                       Подробнее
                     </a>
+                     
+                 
                 </td>
+                
+
               </ng-container>
+            
   
       
               <!-- Текущие затраты -->
-              <!--  <ng-container matColumnDef="currentExpenditure">
+            <!--     <ng-container matColumnDef="currentExpenditure">
                 <th mat-header-cell *matHeaderCellDef>Текущие затраты</th>
                 <td mat-cell *matCellDef="let constructionSite"> 
                   {{constructionSite.currentExpenditure}} 
-                  <button mat-stroked-button color="primary">Подробнее</button>
+                  <button
+                     mat-stroked-button 
+                     color="primary"
+                     (click)="onShowConstructionSitePage(constructionSite)"
+                    >Подробнее</button>
                 </td>
               </ng-container> -->
           

@@ -27,7 +27,8 @@ export class OnDutyComponent implements OnInit, OnDestroy {
     'itemOfExpenditure', 
     'dateOfAccount',  
     'sumOfAccount', 
-    'paymentAppointment'
+    'paymentAppointment',
+    'delete'
   ];
 
   dataSource = new MatTableDataSource<Expenditure>(this.constructionSites);
@@ -58,6 +59,10 @@ export class OnDutyComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onDeleteExpenditureItem(timestamp){
+    this.constructionSiteService.deleteDutyExpenditureItem(this._id, timestamp)
   }
 
 }

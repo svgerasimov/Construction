@@ -43,8 +43,6 @@ export class CurrentConstructionSitesComponent implements OnInit, OnDestroy {
    
   }, 300)
 
- 
-   
   }
 
    ngOnDestroy() {

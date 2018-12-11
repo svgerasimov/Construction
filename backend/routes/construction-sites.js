@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
         if(isValid){
             error = null
         }
-        cb(null, "backend/uploads")
+        cb(null, "uploads")
     },
     filename: (req, file, cb) => {
         const name = file.originalname.toLowerCase().split(' ').join('-')
@@ -45,7 +45,20 @@ router.post("", checkAuth,  (req, res, next) => {
  })
  
  router.get("", checkAuth, (req, res, next) => {
-     ConstructionSite.find({creator: req.userData.userId})
+     if(req.userData.email === 'gd@pinkomp.ru'){
+        ConstructionSite.find()
+        .then(documents => {
+            res.status(200).json({
+                message: 'Construction sites fetched successfully',
+                constructionSites: documents,
+                credentialsOfCreator: `${req.userData.userName} ${req.userData.userSecondName}`
+            })
+        }) 
+        .catch(() => {
+            console.log("Connection failed")
+        });
+     } else {
+        ConstructionSite.find({creator: req.userData.userId})
          .then(documents => {
              res.status(200).json({
                  message: 'Construction sites fetched successfully',
@@ -56,8 +69,11 @@ router.post("", checkAuth,  (req, res, next) => {
          .catch(() => {
              console.log("Connection failed")
          });
+     }
+     
      
  });
+
  
  router.get("/:_id", (req, res, next) => {
  
@@ -69,53 +85,61 @@ router.post("", checkAuth,  (req, res, next) => {
          }
      })
  })
- 
+
+
+
+
+  /* Delete CASH Expenditure Item */
+ router.delete("/cash/:_id/", (req, res, next) => {
+    const id = req.params._id
+    const accountNumber = req.query.accountNumber
+
+    ConstructionSite.updateOne(
+        {_id: id},
+        {$pull: {cashExpenditures: {accountNumber: accountNumber}}}
+    ).then(result => {
+        res.status(200).json({message: "cashExpenditure Item deleted!!"});
+    })
+
+ })
+
+ /* Delete CASHLESS Expenditure Item */
+ router.delete("/cashless/:_id/", (req, res, next) => {
+    const id = req.params._id
+    const accountNumber = req.query.accountNumber
+
+    ConstructionSite.updateOne(
+        {_id: id},
+        {$pull: {cashlessExpenditures: {accountNumber: accountNumber}}}
+    ).then(result => {
+        console.log(result)
+        res.status(200).json({message: "cashlessExpenditure Item deleted!!"});
+    })
+
+ })
+
+ /* Delete DUTY Expenditure Item */
+ router.delete("/duty/:_id/", (req, res, next) => {
+    const id = req.params._id
+    const timestamp = req.query.timestamp
+
+    ConstructionSite.updateOne(
+        {_id: id},
+        {$pull: {dutyExpenditures: {timestamp: timestamp}}}
+    ).then(result => {
+        console.log(result)
+        res.status(200).json({message: "dutyExpenditure Item deleted!!"});
+    })
+
+ })
+
+
+
+
+
  
  router.patch("/:_id", checkAuth, (req, res, next) => {
-     
- /*     if (req.body.typeOfExpense === 'cash') {
-         ConstructionSite.updateOne(
-             {_id: req.params._id},
-             {
-                 $push: {
-                     cashExpenditures: req.body
-                 }
-             }
-   
-         )
-         .then(result => {
-             res.status(200).json({ message: "cashExpenditures updated successfully"}) 
-         })
-     } */ 
-     /*  else if (req.body.typeOfExpense === 'cashless') {
-         ConstructionSite.updateOne(
-             {_id: req.params._id},
-             {
-                $push:{
-                     cashlessExpenditures: req.body
-                } 
-             }
-         )
-         .then(result => {
-             res.status(200).json({ message: "cashlessExpenditures updated successfully"}) 
-         })
-     } */ 
-/*        if (req.body.typeOfExpense === 'duty') {
-         ConstructionSite.updateOne(
-             {_id: req.params._id},
  
-             {
-                $push: {
-                     dutyExpenditures: req.body
-                } 
-             }
-         )
-         .then(result => {
-     
-             res.status(200).json({ message: "dutyExpenditures updated successfully"}) 
-         })
-     }  */
-     
       if (req.body.actualDateOfSigningContract) {
          ConstructionSite.updateOne(
              {_id: req.params._id},
@@ -404,6 +428,7 @@ router.patch("/add-duty-expenditure/:_id", checkAuth, (req, res, next)=> {
         })
      })
  })
+
 
 
  

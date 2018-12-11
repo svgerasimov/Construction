@@ -113,7 +113,8 @@
                 sumOfAccount: Number,
                 paymentAppointment: String,
                 itemOfExpenditure: String,
-                typeOfExpense: String
+                typeOfExpense: String,
+                timestamp: Number
             }]
     })
 

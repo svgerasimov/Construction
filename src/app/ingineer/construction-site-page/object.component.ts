@@ -21,7 +21,7 @@ import { ConstructionSiteService } from '../../services/construction-sites.servi
 
 
 export class ObjectComponent implements OnInit {
-  private constSiteId: string;
+  public constSiteId: string;
   public constructionSite: ConstructionSite;
 
 
@@ -68,9 +68,6 @@ export class ObjectComponent implements OnInit {
         this.constructionSiteService.updateConstructionSiteCurrentDeadlines(this.constSiteId, currentDeadlines)
   }
 
-   /*  onContractorsAdded(contractors: Contractor[]) {
-      this.constructionSiteService.updateConstructionSiteContractors(this.constSiteId, contractors)
-  }  */
 
 
 }

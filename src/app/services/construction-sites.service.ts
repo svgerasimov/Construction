@@ -1,5 +1,8 @@
 import { HttpClient } from "@angular/common/http"
 
+import { environment } from "../../environments/environment"
+const BACKEND_URL = environment.apiUrl
+
 /**** Interfaces ****/
 import { ConstructionSite } from '../models/construction-site.model'
 
@@ -26,9 +29,7 @@ export class ConstructionSiteService {
    getConstructionSites() {
    
     this.http
-      .get<{message: string, constructionSites: any}>(
-        'http://localhost:3000/api/construction-sites'
-      )
+      .get<{message: string, constructionSites: any}>(BACKEND_URL)
 
         .subscribe((constrSitesData: {message: string, constructionSites: ConstructionSite[], credentialsOfCreator: any }) => {
             this.constructionSites = constrSitesData.constructionSites
@@ -55,14 +56,14 @@ export class ConstructionSiteService {
 
 
     getConstructionSite(_id: string){
-       return this.http.get('http://localhost:3000/api/construction-sites/' + _id)
+       return this.http.get(BACKEND_URL + "/" + _id)
       
     }
 
 
     addConstructionSite(constSite: ConstructionSite){
         const constructionSite: ConstructionSite = constSite;
-          this.http.post<{message: string}>('http://localhost:3000/api/construction-sites', constructionSite)
+          this.http.post<{message: string}>(BACKEND_URL, constructionSite)
         .subscribe((resData) => {
             console.log(resData)
         });
@@ -76,9 +77,61 @@ export class ConstructionSiteService {
         planningDateOfPaymentContract: Date                                      
     }){
        
-          this.http.patch('http://localhost:3000/api/construction-sites/' + _id, currentDeadlines)
+          this.http.patch(BACKEND_URL + '/' + _id, currentDeadlines)
         .subscribe(response => console.log(response)) 
 
+    }
+
+
+    /* Delete CASH Expenditure Item */
+    deleteCashExpenditureItem(_id: string, accountNumber: number){
+          this.http.delete(BACKEND_URL + '/cash/' + _id + '/?accountNumber=' + accountNumber)
+            .subscribe((res) => {
+                console.log(res)
+                const updatedConstructionSites = this.constructionSites.map(constructionSite => {
+                    if(constructionSite._id === _id){
+                        const updatedCashExpenditures = constructionSite.cashExpenditures.filter(cashExpenditure => cashExpenditure.accountNumber !== accountNumber)
+                        constructionSite.cashExpenditures = updatedCashExpenditures 
+                    }
+                    return constructionSite
+                })
+                this.constructionSites = updatedConstructionSites
+                this.constructionSitesUpdated.next([...this.constructionSites]) 
+            }) 
+    }
+
+    /* Delete CASHLESS Expenditure Item */
+    deleteCashlessExpenditureItem(_id: string, accountNumber: number){
+          this.http.delete(BACKEND_URL + '/cashless/' + _id + '/?accountNumber=' + accountNumber)
+            .subscribe((res) => {
+                console.log(res)
+                const updatedConstructionSites = this.constructionSites.map(constructionSite => {
+                    if(constructionSite._id === _id){
+                        const updatedCashlessExpenditures = constructionSite.cashlessExpenditures.filter(cashlessExpenditure => cashlessExpenditure.accountNumber !== accountNumber)
+                        constructionSite.cashlessExpenditures = updatedCashlessExpenditures 
+                    }
+                    return constructionSite
+                })
+                this.constructionSites = updatedConstructionSites
+                this.constructionSitesUpdated.next([...this.constructionSites]) 
+            }) 
+    }
+
+    /* Delete CASHLESS Expenditure Item */
+    deleteDutyExpenditureItem(_id: string, timestamp: number){
+          this.http.delete(BACKEND_URL + '/duty/' + _id + '/?timestamp=' + timestamp)
+            .subscribe((res) => {
+                console.log(res)
+                 const updatedConstructionSites = this.constructionSites.map(constructionSite => {
+                    if(constructionSite._id === _id){
+                        const updatedDutyExpenditures = constructionSite.dutyExpenditures.filter(dutyExpenditure => dutyExpenditure.timestamp !== timestamp)
+                        constructionSite.dutyExpenditures = updatedDutyExpenditures 
+                    }
+                    return constructionSite
+                })
+                this.constructionSites = updatedConstructionSites
+                this.constructionSitesUpdated.next([...this.constructionSites]) 
+            }) 
     }
 
 
@@ -128,7 +181,7 @@ export class ConstructionSiteService {
      addCurrentCashLessExpenditures(_id: string, cashLessExpense: Expenditure){
         const cashLessExpenditure: Expenditure = cashLessExpense;
 
-         this.http.patch('http://localhost:3000/api/construction-sites/add-cashless-expenditure/' + _id, cashLessExpenditure)
+         this.http.patch(BACKEND_URL + '/add-cashless-expenditure/' + _id, cashLessExpenditure)
         .subscribe(response => {
             console.log(response)
             const updatedConstructionSites = [...this.constructionSites]
@@ -163,7 +216,7 @@ export class ConstructionSiteService {
      addCurrentCashExpenditures(_id: string, cashExpense: Expenditure){
          const cashExpenditure: Expenditure = cashExpense;
 
-          this.http.patch('http://localhost:3000/api/construction-sites/add-cash-expenditure/' + _id, cashExpenditure)
+          this.http.patch(BACKEND_URL +  '/add-cash-expenditure/' + _id, cashExpenditure)
         .subscribe(response => {
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)
@@ -198,7 +251,7 @@ export class ConstructionSiteService {
         this.dutyExpenditures.push(dutyExpenditure) 
         this.dutyExpendituresUpdated.next([...this.dutyExpenditures]) 
 
-        this.http.patch('http://localhost:3000/api/construction-sites/add-duty-expenditure/' + _id, dutyExpenditure)
+        this.http.patch(BACKEND_URL  + '/add-duty-expenditure/' + _id, dutyExpenditure)
         .subscribe(response => {
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)
@@ -244,7 +297,7 @@ export class ConstructionSiteService {
         }
 
     
-          this.http.patch('http://localhost:3000/api/construction-sites/new-contractors/' + _id, constructionSiteData)
+          this.http.patch(BACKEND_URL  + '/new-contractors/' + _id, constructionSiteData)
         .subscribe(response => {
 
             const updatedConstructionSites = [...this.constructionSites]
@@ -266,7 +319,7 @@ export class ConstructionSiteService {
 
      makeContractorForeman(_id: string, contr: Contractor){
         const contractor: Contractor = contr;
-        this.http.patch('http://localhost:3000/api/construction-sites/' + _id, contractor)
+        this.http.patch(BACKEND_URL  + '/' + _id, contractor)
         .subscribe(response => {
             const updatedConstructionSites = [...this.constructionSites]
             const oldConstructionSiteIndex = updatedConstructionSites.findIndex(c => c._id === _id)

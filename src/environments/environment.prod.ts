@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: "http://prostostroi.pinkomp.ru:3000/api/construction-sites"
 };

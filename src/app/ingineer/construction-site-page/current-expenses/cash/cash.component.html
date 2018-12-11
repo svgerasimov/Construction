@@ -44,36 +44,21 @@
       <!-- Назначение платежа -->
       <ng-container matColumnDef="paymentAppointment">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Назначение платежа </th>
-        <td mat-cell *matCellDef="let expenditure"> {{expenditure?.paymentAppointment}} </td>
+        <td mat-cell *matCellDef="let expenditure"> {{expenditure?.paymentAppointment}}</td>  
       </ng-container>
 
-      
-<!--       
-      <ng-container matColumnDef="areProductsEntered">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Товары введены </th>
-        <td mat-cell *matCellDef="let expenditure"> {{expenditure.areProductsEntered}} </td>
+      <!-- Удаление статьи расхода -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let expenditure">
+          <button
+            (click)="onDeleteExpenditureItem(expenditure.accountNumber)"
+            mat-stroked-button 
+            color="warn">
+            Удалить
+          </button>
+        </td>
       </ng-container>
-
-   
-      <ng-container matColumnDef="areProductsPaid">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Оплачено </th>
-        <td mat-cell *matCellDef="let expenditure"> {{expenditure.areProductsPaid}} </td>
-      </ng-container>
-
-  
-      <ng-container matColumnDef="UTDNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> № УПД (сч-ф) </th>
-        <td mat-cell *matCellDef="let expenditure"> {{expenditure.UTDNumber}} </td>
-      </ng-container>
-
-  
-      <ng-container matColumnDef="UTDDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата УПД (сч-ф) </th>
-        <td mat-cell *matCellDef="let expenditure"> {{expenditure.UTDDate}} </td>
-      </ng-container> -->
-
-   
-
   
        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let expenditure; columns: displayedColumns;"> 

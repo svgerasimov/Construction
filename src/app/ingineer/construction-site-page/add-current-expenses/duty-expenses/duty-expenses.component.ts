@@ -35,12 +35,13 @@ export class DutyExpensesComponent implements OnInit {
     this.dutyExpenditure = this.processForm(form)
     form.reset()
     this.constructionSiteService.addCurrentDutyExpenditures(this._id, this.dutyExpenditure)
-   // this.dutyExpenditureAdded.emit(this.dutyExpenditure)
+
   } 
 
    processForm(form){
     const outputObject = Object.assign({}, form.value)
     outputObject.typeOfExpense = 'duty'
+    outputObject.timestamp = Date.now()
     return outputObject
   } 
 

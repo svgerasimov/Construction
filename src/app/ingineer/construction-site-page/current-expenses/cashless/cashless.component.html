@@ -47,6 +47,19 @@
         <td mat-cell *matCellDef="let expenditure"> {{expenditure?.paymentAppointment}} </td>
       </ng-container>
 
+      <!-- Удаление статьи расхода -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let expenditure">
+          <button
+            (click)="onDeleteExpenditureItem(expenditure.accountNumber)"
+            mat-stroked-button 
+            color="warn">
+            Удалить
+          </button>
+        </td>
+      </ng-container>
+
    <!--    
  
       <ng-container matColumnDef="areProductsEntered">

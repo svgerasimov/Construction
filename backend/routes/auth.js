@@ -38,7 +38,7 @@ router.post("/user/login", (req, res, next) => {
       
         if (!user) {
             return res.status(401).json({
-                message: "Auth failed!"
+                message: "Вы ввели неправильный логин"
             })
         }
         fetchedUser = user 
@@ -48,7 +48,7 @@ router.post("/user/login", (req, res, next) => {
        
         if(!result) {
             return res.status(401).json({
-                message: "Auth failed!"
+                message: "Вы ввели неправильный пароль"
             })
         }
         const token = jwt.sign({
@@ -68,7 +68,7 @@ router.post("/user/login", (req, res, next) => {
     .catch(err => {
         console.log(err)
         return res.status(401).json({
-            message: "Auth failed!"
+            message: "Auth failed!!!!"
         })
     })
 })
